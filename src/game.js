@@ -22,7 +22,7 @@ Game = {
     for (i=0; i<Game.map_grid.width; i+=5) {
       Crafty.e("Rock").attr({x: Game.map_grid.tile.width*i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
     }
-      Crafty.e("Rock").attr({x: 32, y: (Game.map_grid.height-2)*Game.map_grid.tile.height});
+      Crafty.e("Rock").attr({x: 64, y: (Game.map_grid.height-2)*Game.map_grid.tile.height});
 
     // for (i=0; i<Game.map_grid.width; i++) {
     //   for (j=0; j<Game.map_grid.height; j++) {
@@ -33,17 +33,22 @@ Game = {
     // }
     var player = Crafty.e('GuyPlayer').attr({x: 0, y:0});
     player.bind("EnterFrame", function(){
-        if (this.x<=0) { this.x = 0; } // left bound
+        // left bound
+        if (this.x<=0) { this.x = 0; }
+        // right bound
         if (this.x>=(Game.map_grid.width-1)*Game.map_grid.tile.width) {
           this.x = (Game.map_grid.width-1)*Game.map_grid.tile.width;
         }
+        // fall under screen
         if (this.y > Game.map_grid.height*Game.map_grid.tile.height) {
           // console.log("to to reset");
         }
+        // check side collision with rocks and do not allow overlap
         var collision_data = this.hit("Rock");
         if (collision_data) {
-          window.temp = collision_data;
-          Crafty.stop();
+          var rock_x = collision_data[0].obj.x;
+          if (rock_x > this.x) { this.x = rock_x - 32; }
+          else { this.x = rock_x + 32; }
         }
     });
   }

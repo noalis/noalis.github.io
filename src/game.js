@@ -36,8 +36,9 @@ Game = {
         // left bound
         if (this.x<=0) { this.x = 0; }
         // right bound
-        if (this.x>=(Game.map_grid.width-1)*Game.map_grid.tile.width) {
-          this.x = (Game.map_grid.width-1)*Game.map_grid.tile.width;
+        if ((this.x+this.w)>=(Game.map_grid.width)*Game.map_grid.tile.width) {
+          // this.x = (Game.map_grid.width-1)*Game.map_grid.tile.width;
+          this.x = Crafty.viewport.width - this.w;
         }
         // fall under screen
         if (this.y > Game.map_grid.height*Game.map_grid.tile.height) {
@@ -47,8 +48,9 @@ Game = {
         var collision_data = this.hit("Rock");
         if (collision_data) {
           var rock_x = collision_data[0].obj.x;
-          if (rock_x > this.x) { this.x = rock_x - 32; }
-          else { this.x = rock_x + 32; }
+          var rock_w = collision_data[0].obj.w;
+          if (rock_x > this.x) { this.x = rock_x - this.w; }
+          else { this.x = rock_x + rock_w; }
         }
     });
   }

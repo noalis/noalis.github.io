@@ -30,7 +30,6 @@ Game = {
       Crafty.e("Rock").attr({x: Game.map_grid.tile.width*i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
     }
     
-    Crafty.e("Rock").attr({x: 64, y: (Game.map_grid.height-2)*Game.map_grid.tile.height});
     var cat = Crafty.e('Cat').attr({x: 500, y:(Game.map_grid.height-2)*Game.map_grid.tile.height});
     
     // for (i=0; i<Game.map_grid.width; i++) {
@@ -43,7 +42,7 @@ Game = {
     
 
     var player = Crafty.e('GuyPlayer').attr({x: 0, y:0});
-    window.player = player;
+    
     player.bind("EnterFrame", function(){
         // left bound
         if (this.x<=0) { this.x = 0; }
@@ -54,11 +53,15 @@ Game = {
         }
         // fall under screen
         if (this.y > Game.map_grid.height*Game.map_grid.tile.height) {
-          // console.log("to to reset");
+          this.image("assets/lior_stand.png");
+          Game.lives-=1;
+          this.x=0;
+          this.y=0;
         }
         // check side collision with rocks and do not allow overlap
         var hit_rock = this.hit("Rock");
         if (hit_rock) {
+          this.image("assets/lior_stand.png");
           var rock_x = hit_rock[0].obj.x;
           var rock_w = hit_rock[0].obj.w;
           if (rock_x > this.x) { this.x = rock_x - this.w; }
@@ -67,15 +70,38 @@ Game = {
 
         var hit_cat = this.hit("Cat");
         if (hit_cat) {
-          // console.log('cat hit!');
+          this.image("assets/lior_stand.png");
           Game.lives-=1;
           this.x=0;
           this.y=0;
         }
+
+        // console.log(this.y);
+        if (this.y == 283) {
+          this.image("assets/lior_stand.png");
+        }
     });
+    player.bind("KeyDown", function(e){
+      if (e.key === 38) {
+        this.image("assets/lior_jump.png");
+      }
+      if (e.key === 37) {
+        this.flip("X");
+      }
+      if (e.key === 39) {
+        this.unflip("X");
+      }
+    });
+
+    var girl = Crafty.e('GirlPlayer').attr({x: 950, y: 281});
+
     cat.bind("EnterFrame", function(){
       this.go();
     });
-    Crafty.e("2D, Canvas, Text").attr({ x: 100, y: 100 }).text("Lives: " + Game.lives);
+    var text = Crafty.e("2D, Canvas, Text").attr({ x: 100, y: 100 }).text("Lives: " + Game.lives);
+    text.bind("EnterFrame", function(){
+      this.text("Lives: " + Game.lives);
+    });
+
   }
 };

@@ -62,7 +62,10 @@ Crafty.c('Dog', {
     // else { this.speedY--; }
 
     // if (this.y <= this.minY) { this.speedY = 4; }
-    if (this.y >= this.maxY) { this.speedY = -14; }
+    if (this.y >= this.maxY) { 
+      this.speedY = -14;
+      Crafty.audio.play("issajump");
+    }
     if (this.speedY < 0) { this.flip("Y"); }
     else { this.unflip("Y"); }
   }

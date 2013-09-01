@@ -67,3 +67,10 @@ Crafty.c('Dog', {
     else { this.unflip("Y"); }
   }
 });
+
+Crafty.c("Cloud", {
+  init: function(){
+    this.requires('2D, Canvas, Image')
+    .image('assets/cloud.png');
+  }
+});

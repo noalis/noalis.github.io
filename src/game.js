@@ -1,6 +1,6 @@
 Game = {
   map_grid: {
-    width: 31,
+    width: 33,
     height: 12,
     tile: {
       width: 32,
@@ -24,13 +24,29 @@ Game = {
     Crafty.init(Game.width(), Game.height());
     Crafty.background('#78bbff');
     
+    var dog = Crafty.e('Dog').attr({x: 725, y: 100});
+    dog.bind("EnterFrame", function(){
+      this.go();
+    });
+
+    var player = Crafty.e('GuyPlayer').attr({x: 0, y:0});
+    
     // build map with rocks
     var i, j;
-    for (i=0; i<Game.map_grid.width; i+=5) {
+    for (i=0; i<Game.map_grid.width*39; i+=39) {
+      Crafty.e("Wave").attr({x: i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
+    }
+
+    for (i=0; i<Game.map_grid.width-5; i+=5) {
       Crafty.e("Rock").attr({x: Game.map_grid.tile.width*i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
     }
+    Crafty.e("Rock").attr({x: 375, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
+    Crafty.e("Rock").attr({x: 430, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
+    Crafty.e("Rock").attr({x: 950, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
+    Crafty.e("Rock").attr({x: 1005, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
+        
+
     
-    var cat = Crafty.e('Cat').attr({x: 500, y:(Game.map_grid.height-2)*Game.map_grid.tile.height});
     
     // for (i=0; i<Game.map_grid.width; i++) {
     //   for (j=0; j<Game.map_grid.height; j++) {
@@ -41,7 +57,7 @@ Game = {
     // }
     
 
-    var player = Crafty.e('GuyPlayer').attr({x: 0, y:0});
+    
     
     player.bind("EnterFrame", function(){
         // left bound
@@ -76,6 +92,14 @@ Game = {
           this.y=0;
         }
 
+        var hit_dog = this.hit("Dog");
+        if (hit_dog) {
+          this.image("assets/lior_stand.png");
+          Game.lives-=1;
+          this.x=0;
+          this.y=0;
+        }
+
         // console.log(this.y);
         if (this.y == 283) {
           this.image("assets/lior_stand.png");
@@ -93,11 +117,13 @@ Game = {
       }
     });
 
-    var girl = Crafty.e('GirlPlayer').attr({x: 950, y: 281});
-
+    var girl = Crafty.e('GirlPlayer').attr({x: 1000, y: 281});
+    var cat = Crafty.e('Cat').attr({x: 500, y:306});
     cat.bind("EnterFrame", function(){
       this.go();
     });
+    
+
     var text = Crafty.e("2D, Canvas, Text").attr({ x: 100, y: 100 }).text("Lives: " + Game.lives);
     text.bind("EnterFrame", function(){
       this.text("Lives: " + Game.lives);

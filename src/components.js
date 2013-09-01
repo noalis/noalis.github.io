@@ -1,6 +1,16 @@
 Crafty.c('Rock', {
   init: function(){
-    this.requires('2D, Canvas, Color').color("black").attr({ w: Game.map_grid.tile.width, h: Game.map_grid.tile.height});
+    this.requires('2D, Canvas, Image')
+    .image('assets/rock.png')
+    .attr({ w: 55, h: 32});
+  }
+});
+
+Crafty.c('Wave', {
+  init: function(){
+    this.requires('2D, Canvas, Image')
+    .image('assets/wave.png')
+    .attr({ w: 55, h: 32});
   }
 });
 
@@ -22,11 +32,11 @@ Crafty.c('GirlPlayer', {
 });
 Crafty.c('Cat', {
   speedX: -4,
-  minX: 300,
-  maxX: 600,
+  minX: 320,
+  maxX: 485,
   init: function(){
     this.requires('2D, Canvas, Image, Collision')
-    .image('assets/cat.png');
+    .image('assets/dora.png');
   },
   go: function(){
     this.x += this.speedX;
@@ -34,5 +44,26 @@ Crafty.c('Cat', {
 
     if (this.speedX < 0) { this.flip("X"); }
     else { this.unflip("X"); }
+  }
+});
+Crafty.c('Dog', {
+  speedY: 1,
+  minY: 0,
+  maxY: 400,
+  init: function(){
+    this.requires('2D, Canvas, Image, Collision')
+    .image('assets/issa.png');
+  },
+  go: function(){
+    this.y += this.speedY;
+    this.speedY += 0.3;
+    // this.y += this.speedY;
+    // if (this.speedY < 0) { this.speedY--; }
+    // else { this.speedY--; }
+
+    // if (this.y <= this.minY) { this.speedY = 4; }
+    if (this.y >= this.maxY) { this.speedY = -14; }
+    if (this.speedY < 0) { this.flip("Y"); }
+    else { this.unflip("Y"); }
   }
 });

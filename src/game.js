@@ -55,6 +55,7 @@ Game = {
           "assets/noa_stand.png",
           "assets/dora.png",
           "assets/issa.png",
+          "assets/bg.png",
           "assets/cloud.png"
         ],
         function() {
@@ -79,20 +80,25 @@ Game = {
       Crafty.audio.add("success", "assets/sounds/success.wav");
       Crafty.audio.add("issajump", "assets/sounds/issajump.wav");
 
-      Crafty.background('#78bbff');
+      Crafty.background('#9ad9fd');
       
+      var sun = Crafty.e('Sun').attr({x:0, y:0});
+
+
+      // build map with rocks
+      var i, j;
+      for (i=0; i<Game.map_grid.width*39; i+=39) {
+        Crafty.e("Wave").attr({x: i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
+        // Crafty.e("Wave2").attr({x: i, y: 250});
+      }
+
+
       var dog = Crafty.e('Dog').attr({x: 725, y: 100});
       dog.bind("EnterFrame", function(){
         this.go();
       });
 
       Game.player = Crafty.e('GuyPlayer').attr({x: 0, y:0});
-
-      // build map with rocks
-      var i, j;
-      for (i=0; i<Game.map_grid.width*39; i+=39) {
-        Crafty.e("Wave").attr({x: i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
-      }
 
       for (i=0; i<Game.map_grid.width-5; i+=5) {
         Crafty.e("Rock").attr({x: Game.map_grid.tile.width*i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});

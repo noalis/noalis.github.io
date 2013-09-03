@@ -14,6 +14,13 @@ Crafty.c('Wave', {
   }
 });
 
+Crafty.c('Wave2', {
+  init: function(){
+    this.requires('2D, Canvas, Image')
+    .image('assets/wave2.png');
+  }
+});
+
 Crafty.c('GuyPlayer', {
   init: function(){
     this.requires('2D, Canvas, Image, Gravity, Twoway, Collision')
@@ -81,6 +88,13 @@ Crafty.c("Cloud", {
   init: function(){
     this.requires('2D, Canvas, Image')
     .image('assets/cloud.png');
+  }
+});
+
+Crafty.c("Sun", {
+  init: function(){
+    this.requires('2D, Canvas, Image')
+    .image('assets/bg.png');
   }
 });
 

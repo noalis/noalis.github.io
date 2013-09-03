@@ -72,6 +72,7 @@ Game = {
       );
     });
 
+    // game scene
     Crafty.scene("main", function(){
       Crafty.audio.add("jump", "assets/sounds/jump.wav");
       Crafty.audio.add("lostlife", "assets/sounds/lostlife.wav");
@@ -140,7 +141,8 @@ Game = {
           var hit_girl = this.hit("GirlPlayer");
           if (hit_girl) {
             Crafty.audio.play("success");
-            Crafty.pause();
+            Crafty.scene("finish");
+            // Crafty.pause();
           }
           // console.log(this.y);
           if (this.y == 283) {
@@ -165,6 +167,12 @@ Game = {
 
       var girl = Crafty.e('GirlPlayer').attr({x: 1000, y: 281});
       var cat = Crafty.e('Cat').attr({x: 500, y:306});
+      // Crafty.sprite("assets/dora.png", {dora:[0,0,52,46]});
+      // var cat = Crafty.e("2D, Canvas, SpriteAnimation, dora")
+      //   .animate('DoraRun', 0, 0, 52)
+      //   .animate('DoraRun', [[0,0],[52,0]])
+      //   .animate('DoraRun', 15, -1);
+
       cat.bind("EnterFrame", function(){
         this.go();
       });
@@ -176,6 +184,15 @@ Game = {
       });
     });
 
+    // finish screen
+    Crafty.scene("finish", function(){
+      Crafty.background('#ffffff');
+      var girl = Crafty.e('GirlPlayer').attr({x: 500, y: 181});
+      var guy = Crafty.e('GuyPlayer').attr({x: 400, y:181});
+    });
+
+
+    // call the first scene
     Crafty.scene("loading");
     
   

@@ -30,26 +30,32 @@ Crafty.c('GirlPlayer', {
     .flip("X");
   }
 });
+
+
+Crafty.sprite("assets/dora.png", {dora:[0,0,52,46]});
 Crafty.c('Cat', {
-  speedX: -4,
+  speedX: -3,
   minX: 320,
   maxX: 485,
   init: function(){
-    this.requires('2D, Canvas, Image, Collision')
-    .image('assets/dora.png');
+    this.requires('2D, Canvas, SpriteAnimation, Collision, dora')
+    .animate('DoraRun', 0, 0, 52)
+    .animate('DoraRun', [[0,0],[52,0]])
+    .animate('DoraRun', 15, -1);
   },
   go: function(){
     this.x += this.speedX;
     if (this.speedX < 0 && this.x <= this.minX || this.speedX > 0 && this.x >= this.maxX) { this.speedX *= -1; }
 
-    if (this.speedX < 0) { this.flip("X"); }
-    else { this.unflip("X"); }
+    if (this.speedX < 0) { this.unflip("X"); }
+    else { this.flip("X"); }
   }
 });
+
 Crafty.c('Dog', {
   speedY: 1,
   minY: 0,
-  maxY: 400,
+  maxY: 450,
   init: function(){
     this.requires('2D, Canvas, Image, Collision')
     .image('assets/issa.png');
@@ -64,7 +70,7 @@ Crafty.c('Dog', {
     // if (this.y <= this.minY) { this.speedY = 4; }
     if (this.y >= this.maxY) { 
       this.speedY = -14;
-      Crafty.audio.play("issajump");
+      // Crafty.audio.play("issajump");
     }
     if (this.speedY < 0) { this.flip("Y"); }
     else { this.unflip("Y"); }
@@ -77,3 +83,5 @@ Crafty.c("Cloud", {
     .image('assets/cloud.png');
   }
 });
+
+

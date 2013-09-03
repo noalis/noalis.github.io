@@ -29,7 +29,7 @@ Game = {
     Game.player.image("assets/lior_stand.png");
     Game.lives-=1;
     Game.player.x=0;
-    Game.player.y=0;
+    Game.player.y=278;
     Crafty.pause();
   },
   start: function(){
@@ -83,22 +83,19 @@ Game = {
       Crafty.background('#9ad9fd');
       
       var sun = Crafty.e('Sun').attr({x:0, y:0});
-
-
-      // build map with rocks
-      var i, j;
-      for (i=0; i<Game.map_grid.width*39; i+=39) {
-        Crafty.e("Wave").attr({x: i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
-        // Crafty.e("Wave2").attr({x: i, y: 250});
-      }
-
-
+      
       var dog = Crafty.e('Dog').attr({x: 725, y: 100});
       dog.bind("EnterFrame", function(){
         this.go();
       });
 
-      Game.player = Crafty.e('GuyPlayer').attr({x: 0, y:0});
+      // build map with rocks
+      var i, j;
+      for (i=0; i<Game.map_grid.width*39; i+=39) {
+        Crafty.e("Wave").attr({x: i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
+      }
+
+      Game.player = Crafty.e('GuyPlayer').attr({x: 0, y:278});
 
       for (i=0; i<Game.map_grid.width-5; i+=5) {
         Crafty.e("Rock").attr({x: Game.map_grid.tile.width*i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
@@ -108,12 +105,16 @@ Game = {
       Crafty.e("Rock").attr({x: 950, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
       Crafty.e("Rock").attr({x: 1005, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
       
-      Crafty.e("Cloud").attr({x: 200, y: 10});
-      Crafty.e("Cloud").attr({x: 290, y: 20});
-      Crafty.e("Cloud").attr({x: 370, y: 15});
-      Crafty.e("Cloud").attr({x: 420, y: 10});
-
+      var ring = Crafty.e('Ring').attr({x: 250, y: 50});
+      // Crafty.e("Cloud").attr({x: 530, y: 250});
+      // Crafty.e("Cloud").attr({x: 290, y: 100});
+      // Crafty.e("Cloud").attr({x: 430, y: 120});
+      // Crafty.e("Cloud").attr({x: 370, y: 15});
+      // Crafty.e("Cloud").attr({x: 420, y: 10});
+      var prevY=0;
       Game.player.bind("EnterFrame", function(){
+          if (this.y === prevY) { this.image("assets/lior_stand.png"); }
+          prevY = this.y;
           // left bound
           if (this.x<=0) { this.x = 0; }
           // right bound
@@ -125,14 +126,23 @@ Game = {
           if (this.y > Game.map_grid.height*Game.map_grid.tile.height+100) {
             Game.lostLife();
           }
+
+
           // check side collision with rocks and do not allow overlap
           var hit_rock = this.hit("Rock");
           if (hit_rock) {
-            this.image("assets/lior_stand.png");
             var rock_x = hit_rock[0].obj.x;
             var rock_w = hit_rock[0].obj.w;
             if (rock_x > this.x) { this.x = rock_x - this.w; }
             else { this.x = rock_x + rock_w; }
+          }
+
+          var hit_cloud = this.hit("Cloud");
+          if (hit_cloud) {
+            var cloud_x = hit_cloud[0].obj.x;
+            var cloud_w = hit_cloud[0].obj.w;
+            if (cloud_x > this.x) { this.x = cloud_x - this.w; }
+            else { this.x = cloud_x + cloud_w; }
           }
 
           var hit_cat = this.hit("Cat");

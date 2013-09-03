@@ -1,10 +1,24 @@
+Crafty.c('Platform', {
+  init: function(){
+    this.requires('2D, Canvas');
+  }
+});
+
 Crafty.c('Rock', {
   init: function(){
-    this.requires('2D, Canvas, Image')
+    this.requires('2D, Canvas, Image, Platform')
     .image('assets/rock.png')
     .attr({ w: 55, h: 32});
   }
 });
+
+Crafty.c("Cloud", {
+  init: function(){
+    this.requires('2D, Canvas, Image, Platform')
+    .image('assets/cloud.png');
+  }
+});
+
 
 Crafty.c('Wave', {
   init: function(){
@@ -25,8 +39,8 @@ Crafty.c('GuyPlayer', {
   init: function(){
     this.requires('2D, Canvas, Image, Gravity, Twoway, Collision')
     .image('assets/lior_stand.png')
-    .gravity('Rock')
-    .gravityConst(0.8)
+    .gravity('Platform')
+    .gravityConst(1)
     .twoway(5, 15);
   }
 });
@@ -84,12 +98,6 @@ Crafty.c('Dog', {
   }
 });
 
-Crafty.c("Cloud", {
-  init: function(){
-    this.requires('2D, Canvas, Image')
-    .image('assets/cloud.png');
-  }
-});
 
 Crafty.c("Sun", {
   init: function(){
@@ -97,5 +105,9 @@ Crafty.c("Sun", {
     .image('assets/bg.png');
   }
 });
-
-
+Crafty.c("Ring", {
+  init: function(){
+    this.requires('2D, Canvas, Image')
+    .image('assets/ring.png');
+  }
+})

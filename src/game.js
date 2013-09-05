@@ -33,7 +33,7 @@ Game = {
     Crafty.pause();
   },
   start: function(){
-    Crafty.init(Game.width(),Game.height());
+    Crafty.init(Game.width(),Game.height(), "stage");
     Crafty.scene("loading", function() {
       Crafty.background("#000");
       Crafty.e("2D, DOM, Text")
@@ -113,8 +113,11 @@ Game = {
       // Crafty.e("Cloud").attr({x: 420, y: 10});
       var prevY=0;
       Game.player.bind("EnterFrame", function(){
-          if (this.y === prevY) { this.image("assets/lior_stand.png"); }
-          prevY = this.y;
+          
+          // stop jump pose when reaching ground
+          // if (this.y === prevY) { this.image("assets/lior_stand.png"); }
+          // prevY = this.y;
+
           // left bound
           if (this.x<=0) { this.x = 0; }
           // right bound

@@ -1,7 +1,30 @@
+@font-face {
+  font-family: Stanger;
+  src: url(stanger.ttf);
+}
+
 body {
   background-color: #efefef;
+  font-family: Stanger;
 }
-#cr-stage {
+.stage {
   margin: 0 auto;
   border: 10px solid #121212;
+}
+.info {
+  width: 1036px;
+  height: 150px;
+  margin: 0 auto;
+  direction: rtl;
+  background-color: #fff;
+  padding: 20px;
+  margin-top: 10px;
+}
+.instructions, .cheaters {
+  width: 50%;
+  float: right;
+  text-align: center;
+  
+}
+.cheaters { 
 }

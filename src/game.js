@@ -9,7 +9,6 @@ Game = {
   },
   lives: 3,
   hasRing: false,
-  player: null,
   width: function() {
     return this.map_grid.width * this.map_grid.tile.width;
   },
@@ -17,21 +16,18 @@ Game = {
   height: function() {
     return this.map_grid.height * this.map_grid.tile.height;
   },
-  lostLife: function(){
-    Crafty.audio.play("lostlife");
-    this.player.y-=20;
-    // this.player.rotation=-180;
-    Crafty.pause();
-    setTimeout(this.minusLife, 3100);
-  },
-  minusLife: function(){
-    // Game.player.rotation=0;
-    Game.player.image("assets/lior_stand.png");
-    Game.lives-=1;
-    Game.player.x=0;
-    Game.player.y=278;
-    Crafty.pause();
-  },
+  // lostLife: function(player){
+    // Crafty.audio.play("lostlife");
+    // player.y-=20;
+    // Crafty.pause();
+    // setTimeout(function(){
+    //   player.image("assets/lior_stand.png");
+    //   Game.lives-=1;
+    //   player.x=0;
+    //   player.y=278;
+    //   Crafty.pause();
+    // }, 3100);
+  // },
   start: function(){
     Crafty.init(Game.width(),Game.height(), "stage");
     Crafty.scene("loading", function() {
@@ -95,7 +91,7 @@ Game = {
         Crafty.e("Wave").attr({x: i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
       }
 
-      Game.player = Crafty.e('GuyPlayer').attr({x: 0, y:278});
+      var player = Crafty.e('GuyPlayer').attr({x: 0, y:278});
 
       for (i=0; i<Game.map_grid.width-5; i+=5) {
         Crafty.e("Rock").attr({x: Game.map_grid.tile.width*i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
@@ -106,17 +102,19 @@ Game = {
       Crafty.e("Rock").attr({x: 1005, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
       
       var ring = Crafty.e('Ring').attr({x: 250, y: 50});
-      // Crafty.e("Cloud").attr({x: 530, y: 250});
+      
       // Crafty.e("Cloud").attr({x: 290, y: 100});
-      // Crafty.e("Cloud").attr({x: 430, y: 120});
       // Crafty.e("Cloud").attr({x: 370, y: 15});
       // Crafty.e("Cloud").attr({x: 420, y: 10});
+      // Crafty.e("Cloud").attr({x: 430, y: 120});
+      Crafty.e("Cloud").attr({x: 450, y: 240});
+      
       var prevY=0;
-      Game.player.bind("EnterFrame", function(){
+      player.bind("EnterFrame", function(){
           
           // stop jump pose when reaching ground
-          // if (this.y === prevY) { this.image("assets/lior_stand.png"); }
-          // prevY = this.y;
+          if (this.y === prevY) { this.image("assets/lior_stand.png"); }
+          prevY = this.y;
 
           // left bound
           if (this.x<=0) { this.x = 0; }
@@ -127,36 +125,9 @@ Game = {
           }
           // fall under screen
           if (this.y > Game.map_grid.height*Game.map_grid.tile.height+100) {
-            Game.lostLife();
+            this.loseLife();
           }
 
-
-          // check side collision with rocks and do not allow overlap
-          var hit_rock = this.hit("Rock");
-          if (hit_rock) {
-            var rock_x = hit_rock[0].obj.x;
-            var rock_w = hit_rock[0].obj.w;
-            if (rock_x > this.x) { this.x = rock_x - this.w; }
-            else { this.x = rock_x + rock_w; }
-          }
-
-          var hit_cloud = this.hit("Cloud");
-          if (hit_cloud) {
-            var cloud_x = hit_cloud[0].obj.x;
-            var cloud_w = hit_cloud[0].obj.w;
-            if (cloud_x > this.x) { this.x = cloud_x - this.w; }
-            else { this.x = cloud_x + cloud_w; }
-          }
-
-          var hit_cat = this.hit("Cat");
-          if (hit_cat) {
-            Game.lostLife();
-          }
-
-          var hit_dog = this.hit("Dog");
-          if (hit_dog) {
-            Game.lostLife();
-          }
           var hit_girl = this.hit("GirlPlayer");
           if (hit_girl) {
             Crafty.audio.play("success");
@@ -169,7 +140,7 @@ Game = {
           }
       });
 
-      Game.player.bind("KeyDown", function(e){
+      player.bind("KeyDown", function(e){
         if (!Crafty.isPaused()){
           if (e.key === 38) {
             this.image("assets/lior_jump.png");
@@ -185,16 +156,11 @@ Game = {
       });
 
       var girl = Crafty.e('GirlPlayer').attr({x: 1000, y: 281});
-      var cat = Crafty.e('Cat').attr({x: 500, y:306});
-      // Crafty.sprite("assets/dora.png", {dora:[0,0,52,46]});
-      // var cat = Crafty.e("2D, Canvas, SpriteAnimation, dora")
-      //   .animate('DoraRun', 0, 0, 52)
-      //   .animate('DoraRun', [[0,0],[52,0]])
-      //   .animate('DoraRun', 15, -1);
 
-      cat.bind("EnterFrame", function(){
-        this.go();
-      });
+      // var cat = Crafty.e('Cat').attr({x: 500, y:306});
+      // cat.bind("EnterFrame", function(){
+      //   this.go();
+      // });
       
 
       var text = Crafty.e("2D, Canvas, Text").attr({ x: 100, y: 100 }).text("Lives: " + Game.lives);

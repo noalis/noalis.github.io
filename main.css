@@ -1,6 +1,6 @@
 @font-face {
   font-family: Stanger;
-  src: url(stanger.ttf);
+  src: url(/assets/fonts/stanger.ttf);
 }
 
 body {
@@ -24,7 +24,7 @@ body {
   width: 50%;
   float: right;
   text-align: center;
-  
+
 }
 .cheaters { 
 }

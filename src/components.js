@@ -22,6 +22,7 @@ Crafty.c('Rock', {
 Crafty.c("Cloud", {
   init: function(){
     this.requires('2D, Canvas, Image')
+    .attr({w: 20, h: 10})
     .image('assets/cloud.png');
   }
 });
@@ -88,28 +89,77 @@ Crafty.c('Wave2', {
 });
 
 Crafty.c('GuyPlayer', {
+  _lives: 3,
+  _hasRing: false,
   init: function(){
     this.requires('2D, Canvas, Image, Gravity, Twoway, Collision')
     .image('assets/lior_stand.png')
     .gravity('Platform')
-    .gravityConst(1)
+    .gravityConst(1.5)
     .twoway(5, 15)
-    .stopOnPlatforms()
-    .hitByObstacles();
+    .bindCollisions()
+    .bindKeys();
+
+    var prevY;
+    this.bind("EnterFrame", function(){
+      // stop jump pose when reaching ground
+      if (this.y === prevY) {
+        this.image("assets/lior_stand.png");
+      }
+      prevY = this.y;
+
+      // left bound
+      if (this.x<=0) { this.x = 0; }
+      
+      // right bound
+      if ((this.x+this.w)>=(Game.map_grid.width)*Game.map_grid.tile.width) {
+        this.x = Crafty.viewport.width - this.w;
+      }
+      
+      // fall under screen
+      if (this.y > Game.map_grid.height*Game.map_grid.tile.height+100) {
+        this.loseLife();
+      }
+
+      // if (this.y == 283) {
+      //   this.image("assets/lior_stand.png");
+      // }
+    });
   },
-  stopOnPlatforms: function(){
+  bindKeys: function(){
+    this.bind("KeyDown", function(e){
+      if (!Crafty.isPaused()){
+        if (e.key === 38) {
+          this.image("assets/lior_jump.png");
+          Crafty.audio.play("jump");
+        }
+        if (e.key === 37) {
+          this.flip("X");
+        }
+        if (e.key === 39) {
+          this.unflip("X");
+        }
+      }
+    });
+  },
+  bindCollisions: function(){
     this.onHit('Platform', this.stopMovement);
+    this.onHit('Obstacle', this.loseLife);
+    this.onHit('Cloud', this.checkIfStand);
+    this.onHit('GirlPlayer', this.winOnMeet);
+    this.onHit('Ring', this.gotRing);
     return this;
+  },
+  gotRing: function(ring){
+    this.attach(ring[0].obj);
+    ring[0].obj._attr("y",(this.y-20));
+    ring[0].obj._attr("x",(this.x+15));
   },
   stopMovement: function(platform){
     var platform_x = platform[0].obj.x;
     var platform_w = platform[0].obj.w;
     if (platform_x > this.x) { this.x = platform_x - this.w; }
     else { this.x = platform_x + platform_w; }
-  },
-  hitByObstacles: function(){
-    this.onHit('Obstacle', this.loseLife);
-    return this;
   },
   loseLife: function(){
     Crafty.audio.play("lostlife");
@@ -118,13 +168,33 @@ Crafty.c('GuyPlayer', {
     var _this = this;
     setTimeout(function(){
       _this.image("assets/lior_stand.png");
-      Game.lives-=1;
+      _this.detach();
+      Game.ring._attr("x",315);
+      Game.ring._attr("y",330);
+      _this.lives-=1;
       _this.x=0;
       _this.y=278;
       _this._movement.x=0;
+      _this._movement.y=0;
+      _this.unflip();
       Crafty.pause();
-      console.log(_this);
     }, 3100);
+  },
+  checkIfStand: function(cloud){
+    if (this._gy >= 15 && this._y >= cloud[0].obj.y) {
+      // cloud[0].obj.antigravity();
+      
+      this._falling=false;
+      // this.stopFalling(cloud[0].obj);
+      // this._gy=-15;
+      // .requires("Platform");
+      // console.log(cloud[0].obj)
+    }
+    // console.log(this._gy);
+  },
+  winOnMeet: function(girl){
+    Crafty.audio.play("success");
+    Crafty.scene("finish");
   }
 });
 
@@ -135,9 +205,6 @@ Crafty.c('GirlPlayer', {
     .flip("X");
   }
 });
-
-
-
 
 Crafty.c("Sun", {
   init: function(){
@@ -150,4 +217,4 @@ Crafty.c("Ring", {
     this.requires('2D, Canvas, Image')
     .image('assets/ring.png');
   }
-})
+});

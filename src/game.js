@@ -1,13 +1,12 @@
 Game = {
   map_grid: {
     width: 33,
-    height: 12,
+    height: 14,
     tile: {
       width: 32,
       height: 32
     }
   },
-  lives: 3,
   hasRing: false,
   width: function() {
     return this.map_grid.width * this.map_grid.tile.width;
@@ -16,18 +15,6 @@ Game = {
   height: function() {
     return this.map_grid.height * this.map_grid.tile.height;
   },
-  // lostLife: function(player){
-    // Crafty.audio.play("lostlife");
-    // player.y-=20;
-    // Crafty.pause();
-    // setTimeout(function(){
-    //   player.image("assets/lior_stand.png");
-    //   Game.lives-=1;
-    //   player.x=0;
-    //   player.y=278;
-    //   Crafty.pause();
-    // }, 3100);
-  // },
   start: function(){
     Crafty.init(Game.width(),Game.height(), "stage");
     Crafty.scene("loading", function() {
@@ -101,72 +88,29 @@ Game = {
       Crafty.e("Rock").attr({x: 950, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
       Crafty.e("Rock").attr({x: 1005, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
       
-      var ring = Crafty.e('Ring').attr({x: 250, y: 50});
+      Game.ring = Crafty.e('Ring').attr({x: 315, y: 20});
       
-      // Crafty.e("Cloud").attr({x: 290, y: 100});
-      // Crafty.e("Cloud").attr({x: 370, y: 15});
-      // Crafty.e("Cloud").attr({x: 420, y: 10});
-      // Crafty.e("Cloud").attr({x: 430, y: 120});
-      Crafty.e("Cloud").attr({x: 450, y: 240});
+      Crafty.e("Cloud").attr({x: 400, y: 240});
+      Crafty.e("Cloud").attr({x: 280, y: 200});
+      Crafty.e("Cloud").attr({x: 90, y: 210});
+      Crafty.e("Cloud").attr({x: 20, y: 120});
+      Crafty.e("Cloud").attr({x: 150, y: 80});
+      Crafty.e("Cloud").attr({x: 290, y: 60});
       
       var prevY=0;
-      player.bind("EnterFrame", function(){
-          
-          // stop jump pose when reaching ground
-          if (this.y === prevY) { this.image("assets/lior_stand.png"); }
-          prevY = this.y;
-
-          // left bound
-          if (this.x<=0) { this.x = 0; }
-          // right bound
-          if ((this.x+this.w)>=(Game.map_grid.width)*Game.map_grid.tile.width) {
-            // this.x = (Game.map_grid.width-1)*Game.map_grid.tile.width;
-            this.x = Crafty.viewport.width - this.w;
-          }
-          // fall under screen
-          if (this.y > Game.map_grid.height*Game.map_grid.tile.height+100) {
-            this.loseLife();
-          }
-
-          var hit_girl = this.hit("GirlPlayer");
-          if (hit_girl) {
-            Crafty.audio.play("success");
-            Crafty.scene("finish");
-            // Crafty.pause();
-          }
-          // console.log(this.y);
-          if (this.y == 283) {
-            this.image("assets/lior_stand.png");
-          }
-      });
-
-      player.bind("KeyDown", function(e){
-        if (!Crafty.isPaused()){
-          if (e.key === 38) {
-            this.image("assets/lior_jump.png");
-            Crafty.audio.play("jump");
-          }
-          if (e.key === 37) {
-            this.flip("X");
-          }
-          if (e.key === 39) {
-            this.unflip("X");
-          }
-        }
-      });
+      
 
       var girl = Crafty.e('GirlPlayer').attr({x: 1000, y: 281});
 
-      // var cat = Crafty.e('Cat').attr({x: 500, y:306});
-      // cat.bind("EnterFrame", function(){
-      //   this.go();
-      // });
-      
-
-      var text = Crafty.e("2D, Canvas, Text").attr({ x: 100, y: 100 }).text("Lives: " + Game.lives);
-      text.bind("EnterFrame", function(){
-        this.text("Lives: " + Game.lives);
+      var cat = Crafty.e('Cat').attr({x: 500, y:370});
+      cat.bind("EnterFrame", function(){
+        this.go();
       });
+
+      // var text = Crafty.e("2D, Canvas, Text").attr({ x: 100, y: 100 }).text("Lives: " + Game.lives);
+      // text.bind("EnterFrame", function(){
+      //   this.text("Lives: " + Game.lives);
+      // });
     });
 
     // finish screen

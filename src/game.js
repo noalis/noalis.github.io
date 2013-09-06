@@ -100,9 +100,9 @@ Game = {
       var prevY=0;
       
 
-      var girl = Crafty.e('GirlPlayer').attr({x: 1000, y: 281});
+      var girl = Crafty.e('GirlPlayer').attr({x: 950, y: 307});
 
-      var cat = Crafty.e('Cat').attr({x: 500, y:370});
+      var cat = Crafty.e('Cat').attr({x: 500, y:310});
       cat.bind("EnterFrame", function(){
         this.go();
       });
@@ -116,7 +116,7 @@ Game = {
     // finish screen
     Crafty.scene("finish", function(){
       Crafty.background('#ffffff');
-      var girl = Crafty.e('GirlPlayer').attr({x: 500, y: 181});
+      var girl = Crafty.e('GirlPlayer').attr({x: 100, y: 100});
       var guy = Crafty.e('GuyPlayer').attr({x: 400, y:181});
     });
 

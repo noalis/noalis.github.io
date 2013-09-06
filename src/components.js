@@ -1,3 +1,10 @@
+Crafty.sprite("assets/spritemap.png", {
+  Dora:[0,0,100,90],
+  Issa:[0,90,147,90],
+  NoaJump:[67,270,93,90]
+});
+
+
 Crafty.c('Platform', {
   init: function(){
     this.requires('2D, Canvas');
@@ -27,16 +34,13 @@ Crafty.c("Cloud", {
   }
 });
 
-
-Crafty.sprite("assets/dora.png", {dora:[0,0,52,46]});
 Crafty.c('Cat', {
   speedX: -3,
   minX: 320,
   maxX: 485,
   init: function(){
-    this.requires('Obstacle, SpriteAnimation, dora')
-    .animate('DoraRun', 0, 0, 52)
-    .animate('DoraRun', [[0,0],[52,0]])
+    this.requires('Obstacle, SpriteAnimation, Dora')
+    .animate('DoraRun', [[0,0],[100,0]])
     .animate('DoraRun', 15, -1);
   },
   go: function(){
@@ -53,8 +57,9 @@ Crafty.c('Dog', {
   minY: 0,
   maxY: 450,
   init: function(){
-    this.requires('Obstacle, Image')
-    .image('assets/issa.png');
+    this.requires('Obstacle, SpriteAnimation, Issa')
+    .animate('IssaRun', [[0,90],[147,90]])
+    .animate('IssaRun', 15, -1);
   },
   go: function(){
     this.y += this.speedY;
@@ -170,10 +175,10 @@ Crafty.c('GuyPlayer', {
       _this.image("assets/lior_stand.png");
       _this.detach();
       Game.ring._attr("x",315);
-      Game.ring._attr("y",330);
+      Game.ring._attr("y",20);
       _this.lives-=1;
-      _this.x=0;
-      _this.y=278;
+      _this._attr("x",0);
+      _this._attr("y",278);
       _this._movement.x=0;
       _this._movement.y=0;
       _this.unflip();
@@ -200,8 +205,7 @@ Crafty.c('GuyPlayer', {
 
 Crafty.c('GirlPlayer', {
   init: function(){
-    this.requires('2D, Canvas, Image, Collision')
-    .image('assets/noa_stand.png')
+    this.requires('2D, Canvas, NoaJump')
     .flip("X");
   }
 });

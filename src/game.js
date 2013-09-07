@@ -36,6 +36,7 @@ Game = {
           "assets/sounds/cat_scream.wav",
           "assets/sounds/dog_bark.wav",
           "assets/sounds/music.mp3",
+          "assets/sounds/gamemusic.mp3",
           "assets/spritemap.png",
           "assets/rock.png",
           "assets/wave.png",
@@ -64,15 +65,16 @@ Game = {
       Crafty.audio.add("issajump", "assets/sounds/issajump.wav");
       Crafty.audio.add("ring", "assets/sounds/ring.wav");
       Crafty.audio.add("no_ring", "assets/sounds/no_ring.wav");
+      Crafty.audio.add("game_music", "assets/sounds/gamemusic.mp3");
 
       Crafty.background('#c7daf1');
-      
+      Crafty.audio.play("game_music", -1, 0.5);
       var sun = Crafty.e('Sun').attr({x:0, y:0});
       
-      // var dog = Crafty.e('Dog').attr({x: 725, y: 100});
-      // dog.bind("EnterFrame", function(){
-      //   this.go();
-      // });
+      var seal2 = Crafty.e('SealVertical').attr({x: 710, y: 100});
+      seal2.bind("EnterFrame", function(){
+        this.go();
+      });
 
       // build map with rocks
       var i, j;
@@ -133,10 +135,10 @@ Game = {
         passive.attr({x: Game.width()-55, y: Game.height()-107, w: 45, h: 75});
       }
 
-      // var cat = Crafty.e('Cat').attr({x: 500, y:370});
-      // cat.bind("EnterFrame", function(){
-      //   this.go();
-      // });
+      var seal1 = Crafty.e('SealHorizontal').attr({x: 480, y:373});
+      seal1.bind("EnterFrame", function(){
+        this.go();
+      });
 
       // var text = Crafty.e("2D, Canvas, Text").attr({ x: 100, y: 100 }).text("Lives: " + Game.lives);
       // text.bind("EnterFrame", function(){
@@ -146,7 +148,7 @@ Game = {
 
     // finish screen
     Crafty.scene("finish", function(){
-      
+      Crafty.audio.remove("game_music");
       document.getElementsByClassName("info")[0].style.display="none";
       Crafty.background('#ffffff');
       
@@ -154,7 +156,7 @@ Game = {
       Crafty.audio.add("dog_bark", "assets/sounds/dog_bark.wav");
       Crafty.audio.add("music", "assets/sounds/music.mp3");
       Crafty.audio.add("ring", "assets/sounds/ring.wav");
-      Crafty.audio.play("music");
+      Crafty.audio.play("music", -1, 0.6);
 
       var heart = Crafty.e('Heart').attr({x: 300, y: 200, w: 60, h: 50, alpha: 0 }).requires("Tween");
       var lior = Crafty.e('LiorWedding').attr({x: 150, y: 222, alpha: 0 }).requires("Tween");

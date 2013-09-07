@@ -10,7 +10,8 @@ Crafty.sprite("assets/spritemap.png", {
   RingSprite: [536, 90, 153, 90],
   LiorWeddingSprite: [241,180,144,180],
   NoaWeddingSprite: [391,180,127,180],
-  HeartSprite: [435, 90, 98, 90]
+  HeartSprite: [435, 90, 98, 90],
+  SealSprite: [384, 360, 164, 90]
 });
 
 Crafty.sprite("assets/invitext.png", {
@@ -68,16 +69,22 @@ Crafty.c("LongCloudImage", {
     .attr({w: this._w/2, h: this._h/2});
   }
 });
-
-Crafty.c('Cat', {
-  speedX: -3,
-  minX: 320,
-  maxX: 485,
+Crafty.c('SealAnimation', {
   init: function(){
-    this.requires('Obstacle, SpriteAnimation, Dora')
-    .animate('DoraRun', [[0,0],[100,0]])
-    .animate('DoraRun', 15, -1)
-    .attr({w: 50, h:45});
+    this.requires('Obstacle, SpriteAnimation, SealSprite')
+    .animate('SealRun', [[384,360],[548,360]])
+    .animate('SealRun', 15, -1)
+    .attr({w: 76, h: 45})
+    .origin("center");
+  }
+});
+
+Crafty.c('SealHorizontal', {
+  speedX: -4,
+  minX: 306,
+  maxX: 475,
+  init: function(){
+    this.requires('Obstacle, SealAnimation');
   },
   go: function(){
     this.x += this.speedX;
@@ -87,26 +94,41 @@ Crafty.c('Cat', {
   }
 });
 
-Crafty.c('Dog', {
+Crafty.c('SealVertical', {
   speedY: 1,
   minY: 0,
   maxY: 450,
   init: function(){
-    this.requires('Obstacle, SpriteAnimation, Issa')
-    .animate('IssaRun', [[0,90],[147,90]])
-    .animate('IssaRun', 15, -1)
-    .attr({w: 74, h: 45})
-    .origin("center");
+    this.requires('Obstacle, SealAnimation');
+    this.rotation=90;
+    this.stop();
   },
   go: function(){
     this.y += this.speedY;
     this.speedY += 0.3;
     if (this.y >= this.maxY) {
-      this.speedY = -14;
-      // Crafty.audio.play("issajump");
+      this.speedY = -15;
     }
     if (this.speedY < 0) { this.attr("rotation",90); }
     else { this.attr("rotation",-90); }
+  }
+});
+
+Crafty.c('Cat', {
+  init: function(){
+    this.requires('2D, Canvas, SpriteAnimation, Dora')
+    .animate('DoraRun', [[0,0],[100,0]])
+    .animate('DoraRun', 30, -1)
+    .attr({w: 50, h:45});
+  }
+});
+
+Crafty.c('Dog', {
+  init: function(){
+    this.requires('2D, Canvas, SpriteAnimation, Issa')
+    .animate('IssaRun', [[0,90],[147,90]])
+    .animate('IssaRun', 15, -1)
+    .attr({w: 74, h: 45});
   }
 });
 
@@ -231,24 +253,28 @@ Crafty.c('ActivePlayer', {
     else { this.x = platform_x + platform_w; }
   },
   loseLife: function(){
-    Crafty.audio.play("lostlife");
-    this.y-=20;
-    Crafty.pause();
-    var _this = this;
-    setTimeout(function(){
-      // _this.image("assets/ nd.png");
-      // _this.detach();
-      Game.ring._attr("x",815);
-      Game.ring._attr("y",190);
-      _this._hasRing=false;
-      _this.lives-=1;
-      _this._attr("x",0);
-      _this._attr("y",278);
-      _this._movement.x=0;
-      _this._movement.y=0;
-      _this.unflip();
+    if (!this._slapped) {
+      Crafty.audio.pause("game_music");
+      Crafty.audio.play("lostlife");
+      this.y-=20;
       Crafty.pause();
-    }, 3100);
+      var _this = this;
+      setTimeout(function(){
+        // _this.image("assets/ nd.png");
+        // _this.detach();
+        Game.ring._attr("x",815);
+        Game.ring._attr("y",190);
+        _this._hasRing=false;
+        _this.lives-=1;
+        _this._attr("x",0);
+        _this._attr("y",278);
+        _this._movement.x=0;
+        _this._movement.y=0;
+        _this.unflip();
+        Crafty.audio.unpause("game_music");
+        Crafty.pause();
+      }, 3100);
+    }
   },
   checkIfStand: function(cloud){
     // check if player intersects with cloud when coming from the top
@@ -277,13 +303,16 @@ Crafty.c('ActivePlayer', {
   },
   winOnMeet: function(girl){
     if (this._hasRing) {
+      
+      Crafty.audio.remove("game_music");
       Crafty.scene("finish");
     }
     else {
       Crafty.audio.play("no_ring");
       this._slapped = true;
-      this.requires("Tween").tween({x: 0, _up: 2990}, 20);
-      this._slapped = false;
+      this.requires("Tween").tween({x: 0, _up: 2990}, 20).bind("TweenEnd", function(){
+        this._slapped = false;
+      });
       Crafty.e("2D, Canvas, Text").attr({ x: Game.width()-100, y: 200, w: 100, h: 100 })
       .textFont({ size: '12px' })
       .text("If you like it - ");

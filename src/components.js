@@ -284,7 +284,12 @@ Crafty.c('ActivePlayer', {
       this._slapped = true;
       this.requires("Tween").tween({x: 0, _up: 2990}, 20);
       this._slapped = false;
-      // .tween({x: 0, y:200}, 200);
+      Crafty.e("2D, Canvas, Text").attr({ x: Game.width()-100, y: 200, w: 100, h: 100 })
+      .textFont({ size: '12px' })
+      .text("If you like it - ");
+      Crafty.e("2D, Canvas, Text").attr({ x: Game.width()-110, y: 215, w: 100, h: 100 })
+      .textFont({ size: '12px' })
+      .text("put a RING on it");
     }
   }
 });

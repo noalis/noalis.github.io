@@ -13,6 +13,10 @@ Crafty.sprite("assets/spritemap.png", {
   HeartSprite: [435, 90, 98, 90]
 });
 
+Crafty.sprite("assets/invitext.png", {
+  InviTextSprite: [0, 0, 460, 442]
+});
+
 Crafty.c('Platform', {
   init: function(){
     this.requires('2D, Canvas');
@@ -302,6 +306,12 @@ Crafty.c("Sun", {
   init: function(){
     this.requires('2D, Canvas, Image')
     .image('assets/bg.png');
+  }
+});
+
+Crafty.c("InviText", {
+  init: function(){
+    this.requires('2D, Canvas, InviTextSprite');
   }
 });
 Crafty.c("Ring", {

@@ -39,8 +39,8 @@ Game = {
           "assets/spritemap.png",
           "assets/rock.png",
           "assets/wave.png",
-          "assets/bg.png"
-
+          "assets/bg.png",
+          "assets/invitext.png"
         ],
         function() {
           //when loaded
@@ -147,18 +147,22 @@ Game = {
 
     // finish screen
     Crafty.scene("finish", function(){
+      document.getElementsByClassName("info")[0].style.display="none";
       Crafty.background('#ffffff');
       
-      var heart = Crafty.e('Heart').attr({x: 500, y: 200, w: 60, h: 50, alpha: 0 }).requires("Tween");
-      var lior = Crafty.e('LiorWedding').attr({x: 350, y: 200, alpha: 0 }).requires("Tween");
-      var noa = Crafty.e('NoaWedding').attr({x: 560, y: 200, alpha: 0 }).requires("Tween");
+      var heart = Crafty.e('Heart').attr({x: 300, y: 200, w: 60, h: 50, alpha: 0 }).requires("Tween");
+      var lior = Crafty.e('LiorWedding').attr({x: 150, y: 222, alpha: 0 }).requires("Tween");
+      var noa = Crafty.e('NoaWedding').attr({x: 360, y: 222, alpha: 0 }).requires("Tween");
       var dog = Crafty.e("Dog").attr({x: Game.width(), y: 200, w: 147, h: 90}).requires("Tween");
       var cat = Crafty.e("Cat").attr({x: Game.width(), y: 200, w: 100, h: 90}).requires("Tween");
-      
+      var text = Crafty.e("InviText").attr({x: Game.width()-460, y:0, alpha: 0}).requires("Tween");
+
       cat.tween({x: Game.width()/2}, 200).bind("TweenEnd", function(){
         cat.flip("X");
+        cat.stop();
         setTimeout(function(){
           cat.unflip("X");
+          cat.animate("DoraRun", 15, -1);
           cat.tween({x: -200}, 50).unbind("TweenEnd");
         }, 500);
 
@@ -172,13 +176,18 @@ Game = {
               heart.tween({alpha: 1, y: 150}, 50).bind("TweenEnd", function(){
                 heart.unbind("TweenEnd");
                 cat.flip("X");
-                dog.attr({x: -200, y: 280});
-                cat.attr({x: -300, y: 280});
-                dog.tween({x: 150}, 100).bind("TweenEnd", function(){
+                dog.unflip("X");
+                dog.attr({y: 312});
+                cat.attr({x: -300, y: 312});
+                dog.tween({x: 500}, 100).bind("TweenEnd", function(){
                   dog.stop();
-                  dog.sprite(340, 90, 87, 90);
+                  dog.sprite(340, 90, 87, 90).attr({w: 87, h: 90, y: 312 });
                 });
-                cat.tween({x: 50}, 100);
+                cat.tween({x: 55}, 100).bind("TweenEnd", function(){
+                  cat.stop();
+                  cat.sprite(204, 0, 70, 90).attr({w: 70, h: 90, y: 312 });
+                  text.tween({alpha: 1}, 50);
+                });
               });
             });
           });

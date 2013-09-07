@@ -7,6 +7,8 @@ body {
   background-color: #efefef;
   font-family: Stanger;
 }
+a { color: blue; }
+a:visited { color: blue; }
 .stage {
   margin: 0 auto;
   border: 10px solid #121212;
@@ -17,7 +19,7 @@ body {
   margin: 0 auto;
   direction: rtl;
   background-color: #fff;
-  padding: 20px;
+  padding: 0 20px;
   margin-top: 10px;
 }
 .instructions, .cheaters {

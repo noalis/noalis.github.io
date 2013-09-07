@@ -47,7 +47,7 @@ Game = {
         ],
         function() {
           //when loaded
-          Crafty.scene("finish"); //go to main scene
+          Crafty.scene("main"); //go to main scene
         },
 
         function(e) {

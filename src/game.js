@@ -32,7 +32,6 @@ Game = {
         [
           "assets/sounds/jump.wav",
           "assets/sounds/lostlife.wav",
-          "assets/sounds/success.wav",
           "assets/sounds/issajump.wav",
           "assets/sounds/no_ring.wav",
           "assets/sounds/ring.wav",
@@ -64,7 +63,6 @@ Game = {
     Crafty.scene("main", function(){
       Crafty.audio.add("jump", "assets/sounds/jump.wav");
       Crafty.audio.add("lostlife", "assets/sounds/lostlife.wav");
-      Crafty.audio.add("success", "assets/sounds/success.wav");
       Crafty.audio.add("issajump", "assets/sounds/issajump.wav");
       Crafty.audio.add("ring", "assets/sounds/ring.wav");
       Crafty.audio.add("no_ring", "assets/sounds/no_ring.wav");

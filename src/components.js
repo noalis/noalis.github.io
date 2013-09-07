@@ -277,7 +277,6 @@ Crafty.c('ActivePlayer', {
   },
   winOnMeet: function(girl){
     if (this._hasRing) {
-      Crafty.audio.play("success");
       Crafty.scene("finish");
     }
     else {

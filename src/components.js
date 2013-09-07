@@ -7,7 +7,10 @@ Crafty.sprite("assets/spritemap.png", {
   LiorStandSprite:[180,180,61,90],
   ShortCloudSprite: [278, 16, 114, 74],
   LongCloudSprite: [394, 13, 170, 77],
-  RingSprite: [536, 90, 153, 90]
+  RingSprite: [536, 90, 153, 90],
+  LiorWeddingSprite: [241,180,144,180],
+  NoaWeddingSprite: [391,180,127,180],
+  HeartSprite: [435, 90, 98, 90]
 });
 
 Crafty.c('Platform', {
@@ -89,8 +92,7 @@ Crafty.c('Dog', {
     .animate('IssaRun', [[0,90],[147,90]])
     .animate('IssaRun', 15, -1)
     .attr({w: 74, h: 45})
-    .origin("center")
-    .attr("rotation",-90);
+    .origin("center");
   },
   go: function(){
     this.y += this.speedY;
@@ -306,5 +308,20 @@ Crafty.c("Ring", {
   init: function(){
     this.requires('2D, Canvas, RingSprite')
     .attr({w:30, h: 18});
+  }
+});
+Crafty.c("LiorWedding", {
+  init: function(){
+    this.requires('2D, Canvas, LiorWeddingSprite');
+  }
+});
+Crafty.c("NoaWedding", {
+  init: function(){
+    this.requires('2D, Canvas, NoaWeddingSprite').flip("X");
+  }
+});
+Crafty.c("Heart", {
+  init: function(){
+    this.requires('2D, Canvas, HeartSprite');
   }
 });

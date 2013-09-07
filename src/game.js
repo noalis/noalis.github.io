@@ -44,7 +44,7 @@ Game = {
         ],
         function() {
           //when loaded
-          Crafty.scene("main"); //go to main scene
+          Crafty.scene("finish"); //go to main scene
         },
 
         function(e) {
@@ -148,14 +148,50 @@ Game = {
     // finish screen
     Crafty.scene("finish", function(){
       Crafty.background('#ffffff');
-      var passive = Crafty.e('PassivePlayer').attr({x: 100, y: 100});
-      var guy = Crafty.e('ActivePlayer').attr({x: 400, y:181});
-    });
+      
+      var heart = Crafty.e('Heart').attr({x: 500, y: 200, w: 60, h: 50, alpha: 0 }).requires("Tween");
+      var lior = Crafty.e('LiorWedding').attr({x: 350, y: 200, alpha: 0 }).requires("Tween");
+      var noa = Crafty.e('NoaWedding').attr({x: 560, y: 200, alpha: 0 }).requires("Tween");
+      var dog = Crafty.e("Dog").attr({x: Game.width(), y: 200, w: 147, h: 90}).requires("Tween");
+      var cat = Crafty.e("Cat").attr({x: Game.width(), y: 200, w: 100, h: 90}).requires("Tween");
+      
+      cat.tween({x: Game.width()/2}, 200).bind("TweenEnd", function(){
+        cat.flip("X");
+        setTimeout(function(){
+          cat.unflip("X");
+          cat.tween({x: -200}, 50).unbind("TweenEnd");
+        }, 500);
 
+        dog.tween({x: -200}, 100).bind("TweenEnd", function(){
+          dog.flip("X");
+          dog.tween({x: Game.width()+200}, 100).bind("TweenEnd", function(){
+            dog.unbind("TweenEnd");
+            lior.tween({alpha: 1}, 50);
+            noa.tween({alpha: 1}, 50).bind("TweenEnd", function(){
+              noa.unbind("TweenEnd");
+              heart.tween({alpha: 1, y: 150}, 50).bind("TweenEnd", function(){
+                heart.unbind("TweenEnd");
+                cat.flip("X");
+                dog.attr({x: -200, y: 280});
+                cat.attr({x: -300, y: 280});
+                dog.tween({x: 150}, 100).bind("TweenEnd", function(){
+                  dog.stop();
+                  dog.sprite(340, 90, 87, 90);
+                });
+                cat.tween({x: 50}, 100);
+              });
+            });
+          });
+        });
+        
+      });
+      
+      // var lior = Crafty.e('PassivePlayer').attr({x: 100, y: 100});
+      // var guy = Crafty.e('ActivePlayer').attr({x: 400, y:181});
+    });
 
     // call the first scene
     Crafty.scene("loading");
-    
   
   }
 };

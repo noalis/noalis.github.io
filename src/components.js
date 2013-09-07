@@ -1,7 +1,8 @@
 Crafty.sprite("assets/spritemap.png", {
   Dora:[0,0,100,90],
   Issa:[0,90,147,90],
-  NoaJump:[67,270,93,90]
+  noa_jump:[67,270,93,90],
+  NoaStand:[163,270,51,90]
 });
 
 
@@ -28,9 +29,16 @@ Crafty.c('Rock', {
 
 Crafty.c("Cloud", {
   init: function(){
+    this.requires('2D, Canvas')
+    .attr({w: 60, h:45})
+    // .color("#000000")
+    .attach(Crafty.e("CloudImage").attr({x: this._x-5, y:this._y-20}));
+  }
+});
+Crafty.c("CloudImage", {
+  init: function(){
     this.requires('2D, Canvas, Image')
-    .attr({w: 20, h: 10})
-    .image('assets/cloud.png');
+    .image("assets/cloud.png");
   }
 });
 
@@ -41,12 +49,12 @@ Crafty.c('Cat', {
   init: function(){
     this.requires('Obstacle, SpriteAnimation, Dora')
     .animate('DoraRun', [[0,0],[100,0]])
-    .animate('DoraRun', 15, -1);
+    .animate('DoraRun', 15, -1)
+    .attr({w: 50, h:45});
   },
   go: function(){
     this.x += this.speedX;
     if (this.speedX < 0 && this.x <= this.minX || this.speedX > 0 && this.x >= this.maxX) { this.speedX *= -1; }
-
     if (this.speedX < 0) { this.unflip("X"); }
     else { this.flip("X"); }
   }
@@ -59,22 +67,20 @@ Crafty.c('Dog', {
   init: function(){
     this.requires('Obstacle, SpriteAnimation, Issa')
     .animate('IssaRun', [[0,90],[147,90]])
-    .animate('IssaRun', 15, -1);
+    .animate('IssaRun', 15, -1)
+    .attr({w: 74, h: 45})
+    .origin("center")
+    .attr("rotation",-90);
   },
   go: function(){
     this.y += this.speedY;
     this.speedY += 0.3;
-    // this.y += this.speedY;
-    // if (this.speedY < 0) { this.speedY--; }
-    // else { this.speedY--; }
-
-    // if (this.y <= this.minY) { this.speedY = 4; }
-    if (this.y >= this.maxY) { 
+    if (this.y >= this.maxY) {
       this.speedY = -14;
       // Crafty.audio.play("issajump");
     }
-    if (this.speedY < 0) { this.flip("Y"); }
-    else { this.unflip("Y"); }
+    if (this.speedY < 0) { this.attr("rotation",90); }
+    else { this.attr("rotation",-90); }
   }
 });
 
@@ -96,22 +102,24 @@ Crafty.c('Wave2', {
 Crafty.c('GuyPlayer', {
   _lives: 3,
   _hasRing: false,
+  _prevY: null,
   init: function(){
     this.requires('2D, Canvas, Image, Gravity, Twoway, Collision')
     .image('assets/lior_stand.png')
     .gravity('Platform')
-    .gravityConst(1.5)
+    .gravityConst(1)
     .twoway(5, 15)
     .bindCollisions()
     .bindKeys();
 
-    var prevY;
     this.bind("EnterFrame", function(){
+      // console.log(this._movement);
       // stop jump pose when reaching ground
-      if (this.y === prevY) {
+      if (this.y === this._prevY) {
+        // if (this._children.length === 2) this._children[1]._y=this._y+50;
         this.image("assets/lior_stand.png");
       }
-      prevY = this.y;
+      this._prevY = this.y;
 
       // left bound
       if (this.x<=0) { this.x = 0; }
@@ -136,6 +144,7 @@ Crafty.c('GuyPlayer', {
       if (!Crafty.isPaused()){
         if (e.key === 38) {
           this.image("assets/lior_jump.png");
+          // if (this._children.length === 2) this._children[1]._y-=22;
           Crafty.audio.play("jump");
         }
         if (e.key === 37) {
@@ -157,8 +166,8 @@ Crafty.c('GuyPlayer', {
   },
   gotRing: function(ring){
     this.attach(ring[0].obj);
-    ring[0].obj._attr("y",(this.y-20));
-    ring[0].obj._attr("x",(this.x+15));
+    ring[0].obj._attr("y",(this.y+50));
+    ring[0].obj._attr("x",(this.x+45));
   },
   stopMovement: function(platform){
     var platform_x = platform[0].obj.x;
@@ -186,15 +195,28 @@ Crafty.c('GuyPlayer', {
     }, 3100);
   },
   checkIfStand: function(cloud){
-    if (this._gy >= 15 && this._y >= cloud[0].obj.y) {
+    // check if player intersects with cloud when coming from the top
+    var hit = cloud[0].obj;
+    // console.log(this.y-this.h);
+    // if () {
+    if (this._prevY<this._y && this.y+this.h <= hit.y+hit.h/2) {
+      // || (!this._falling && this.y+this.h === hit.y+hit.h))
+      // make him stop falling
+      this.attr("y",hit.y+hit.h);
+      this.stopFalling(hit);
+      // this._falling = false;
+      // this._up = false;
+    }
+    
+    
       // cloud[0].obj.antigravity();
-      
-      this._falling=false;
+      // this._falling=false;
+      // this._y = cloud[0].obj.y-40;
       // this.stopFalling(cloud[0].obj);
       // this._gy=-15;
       // .requires("Platform");
       // console.log(cloud[0].obj)
-    }
+    // }
     // console.log(this._gy);
   },
   winOnMeet: function(girl){
@@ -203,10 +225,16 @@ Crafty.c('GuyPlayer', {
   }
 });
 
+// Crafty.c("NoaJump", {
+//   init: function(){
+//     this.requires('2D, Canvas, Sprite');
+//   }
+// });
+
 Crafty.c('GirlPlayer', {
   init: function(){
-    this.requires('2D, Canvas, NoaJump')
-    .flip("X");
+    this.requires('2D, Canvas, NoaStand')
+    .attr({w: 51, h:90});
   }
 });
 

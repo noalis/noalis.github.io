@@ -78,7 +78,7 @@ Game = {
         Crafty.e("Wave").attr({x: i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
       }
 
-      var player = Crafty.e('GuyPlayer').attr({x: 0, y:278});
+      window.player = Crafty.e('GuyPlayer').attr({x: 0, y:278});
 
       for (i=0; i<Game.map_grid.width-5; i+=5) {
         Crafty.e("Rock").attr({x: Game.map_grid.tile.width*i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
@@ -90,10 +90,10 @@ Game = {
       
       Game.ring = Crafty.e('Ring').attr({x: 315, y: 20});
       
-      Crafty.e("Cloud").attr({x: 400, y: 240});
-      Crafty.e("Cloud").attr({x: 280, y: 200});
-      Crafty.e("Cloud").attr({x: 90, y: 210});
-      Crafty.e("Cloud").attr({x: 20, y: 120});
+      Crafty.e("Cloud").attr({x: 160, y: 255});
+      Crafty.e("Cloud").attr({x: 240, y: 380});
+      // Crafty.e("Cloud").attr({x: 90, y: 210});
+      Crafty.e("Cloud").attr({x: 20, y: 140});
       Crafty.e("Cloud").attr({x: 150, y: 80});
       Crafty.e("Cloud").attr({x: 290, y: 60});
       
@@ -102,10 +102,10 @@ Game = {
 
       var girl = Crafty.e('GirlPlayer').attr({x: 950, y: 307});
 
-      var cat = Crafty.e('Cat').attr({x: 500, y:310});
-      cat.bind("EnterFrame", function(){
-        this.go();
-      });
+      // var cat = Crafty.e('Cat').attr({x: 500, y:370});
+      // cat.bind("EnterFrame", function(){
+      //   this.go();
+      // });
 
       // var text = Crafty.e("2D, Canvas, Text").attr({ x: 100, y: 100 }).text("Lives: " + Game.lives);
       // text.bind("EnterFrame", function(){

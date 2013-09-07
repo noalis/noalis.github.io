@@ -36,6 +36,9 @@ Game = {
           "assets/sounds/issajump.wav",
           "assets/sounds/no_ring.wav",
           "assets/sounds/ring.wav",
+          "assets/sounds/cat_scream.wav",
+          "assets/sounds/dog_bark.wav",
+          "assets/sounds/music.mp3",
           "assets/spritemap.png",
           "assets/rock.png",
           "assets/wave.png",
@@ -147,9 +150,16 @@ Game = {
 
     // finish screen
     Crafty.scene("finish", function(){
+      
       document.getElementsByClassName("info")[0].style.display="none";
       Crafty.background('#ffffff');
       
+      Crafty.audio.add("cat_scream", "assets/sounds/cat_scream.wav");
+      Crafty.audio.add("dog_bark", "assets/sounds/dog_bark.wav");
+      Crafty.audio.add("music", "assets/sounds/music.mp3");
+      Crafty.audio.add("ring", "assets/sounds/ring.wav");
+      Crafty.audio.play("music");
+
       var heart = Crafty.e('Heart').attr({x: 300, y: 200, w: 60, h: 50, alpha: 0 }).requires("Tween");
       var lior = Crafty.e('LiorWedding').attr({x: 150, y: 222, alpha: 0 }).requires("Tween");
       var noa = Crafty.e('NoaWedding').attr({x: 360, y: 222, alpha: 0 }).requires("Tween");
@@ -157,43 +167,48 @@ Game = {
       var cat = Crafty.e("Cat").attr({x: Game.width(), y: 200, w: 100, h: 90}).requires("Tween");
       var text = Crafty.e("InviText").attr({x: Game.width()-460, y:0, alpha: 0}).requires("Tween");
 
-      cat.tween({x: Game.width()/2}, 200).bind("TweenEnd", function(){
-        cat.flip("X");
-        cat.stop();
-        setTimeout(function(){
-          cat.unflip("X");
-          cat.animate("DoraRun", 15, -1);
-          cat.tween({x: -200}, 50).unbind("TweenEnd");
-        }, 500);
+      setTimeout(function(){
+        cat.tween({x: Game.width()/2}, 200).bind("TweenEnd", function(){
+          Crafty.audio.play("cat_scream");
+          cat.flip("X");
+          cat.stop();
+          setTimeout(function(){
+            cat.unflip("X");
+            cat.animate("DoraRun", 15, -1);
+            cat.tween({x: -200}, 50).unbind("TweenEnd");
+            Crafty.audio.play("dog_bark");
+          }, 500);
 
-        dog.tween({x: -200}, 100).bind("TweenEnd", function(){
-          dog.flip("X");
-          dog.tween({x: Game.width()+200}, 100).bind("TweenEnd", function(){
-            dog.unbind("TweenEnd");
-            lior.tween({alpha: 1}, 50);
-            noa.tween({alpha: 1}, 50).bind("TweenEnd", function(){
-              noa.unbind("TweenEnd");
-              heart.tween({alpha: 1, y: 150}, 50).bind("TweenEnd", function(){
-                heart.unbind("TweenEnd");
-                cat.flip("X");
-                dog.unflip("X");
-                dog.attr({y: 312});
-                cat.attr({x: -300, y: 312});
-                dog.tween({x: 500}, 100).bind("TweenEnd", function(){
-                  dog.stop();
-                  dog.sprite(340, 90, 87, 90).attr({w: 87, h: 90, y: 312 });
-                });
-                cat.tween({x: 55}, 100).bind("TweenEnd", function(){
-                  cat.stop();
-                  cat.sprite(204, 0, 70, 90).attr({w: 70, h: 90, y: 312 });
-                  text.tween({alpha: 1}, 50);
+          dog.tween({x: -200}, 100).bind("TweenEnd", function(){
+            dog.flip("X");
+            dog.tween({x: Game.width()+200}, 100).bind("TweenEnd", function(){
+              dog.unbind("TweenEnd");
+              lior.tween({alpha: 1}, 50);
+              noa.tween({alpha: 1}, 50).bind("TweenEnd", function(){
+                noa.unbind("TweenEnd");
+                heart.tween({alpha: 1, y: 150}, 50).bind("TweenEnd", function(){
+                  Crafty.audio.play("ring");
+                  heart.unbind("TweenEnd");
+                  cat.flip("X");
+                  dog.unflip("X");
+                  dog.attr({y: 312});
+                  cat.attr({x: -300, y: 312});
+                  dog.tween({x: 500}, 100).bind("TweenEnd", function(){
+                    dog.stop();
+                    dog.sprite(340, 90, 87, 90).attr({w: 87, h: 90, y: 312 });
+                  });
+                  cat.tween({x: 55}, 100).bind("TweenEnd", function(){
+                    cat.stop();
+                    cat.sprite(204, 0, 70, 90).attr({w: 70, h: 90, y: 312 });
+                    text.tween({alpha: 1}, 50);
+                  });
                 });
               });
             });
           });
+          
         });
-        
-      });
+      }, 5000);
       
       // var lior = Crafty.e('PassivePlayer').attr({x: 100, y: 100});
       // var guy = Crafty.e('ActivePlayer').attr({x: 400, y:181});

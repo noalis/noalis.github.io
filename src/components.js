@@ -1,10 +1,14 @@
 Crafty.sprite("assets/spritemap.png", {
   Dora:[0,0,100,90],
   Issa:[0,90,147,90],
-  noa_jump:[67,270,93,90],
-  NoaStand:[163,270,51,90]
+  NoaJumpSprite:[67,270,74,72],
+  NoaStandSprite:[163,270,51,90],
+  LiorJumpSprite:[90,180,83,90],
+  LiorStandSprite:[180,180,61,90],
+  ShortCloudSprite: [278, 16, 114, 74],
+  LongCloudSprite: [394, 13, 170, 77],
+  RingSprite: [536, 90, 153, 90]
 });
-
 
 Crafty.c('Platform', {
   init: function(){
@@ -18,7 +22,6 @@ Crafty.c('Obstacle', {
   }
 });
 
-
 Crafty.c('Rock', {
   init: function(){
     this.requires('2D, Canvas, Image, Platform')
@@ -27,18 +30,35 @@ Crafty.c('Rock', {
   }
 });
 
-Crafty.c("Cloud", {
+Crafty.c("ShortCloud", {
   init: function(){
     this.requires('2D, Canvas')
-    .attr({w: 60, h:45})
+    .attr({w: 56.5, h:50})
     // .color("#000000")
-    .attach(Crafty.e("CloudImage").attr({x: this._x-5, y:this._y-20}));
+    .attach(Crafty.e("ShortCloudImage").attr({x: this._x, y:this._y-17, w: 56.5, h: 34}));
   }
 });
-Crafty.c("CloudImage", {
+
+Crafty.c("LongCloud", {
   init: function(){
-    this.requires('2D, Canvas, Image')
-    .image("assets/cloud.png");
+    this.requires('2D, Canvas')
+    .attr({w: 85.5, h:50})
+    // .color("#000000")
+    .attach(Crafty.e("LongCloudImage").attr({x: this._x, y:this._y-19, w: 85.5, h: 38.5}));
+  }
+});
+
+Crafty.c("ShortCloudImage", {
+  init: function(){
+    this.requires('2D, Canvas, ShortCloudSprite')
+    .attr({w: this._w/2, h: this._h/2});
+  }
+});
+
+Crafty.c("LongCloudImage", {
+  init: function(){
+    this.requires('2D, Canvas, LongCloudSprite')
+    .attr({w: this._w/2, h: this._h/2});
   }
 });
 
@@ -99,13 +119,12 @@ Crafty.c('Wave2', {
   }
 });
 
-Crafty.c('GuyPlayer', {
+Crafty.c('ActivePlayer', {
   _lives: 3,
   _hasRing: false,
   _prevY: null,
   init: function(){
-    this.requires('2D, Canvas, Image, Gravity, Twoway, Collision')
-    .image('assets/lior_stand.png')
+    this.requires('2D, Canvas, Gravity, Twoway, Collision')
     .gravity('Platform')
     .gravityConst(1)
     .twoway(5, 15)
@@ -115,9 +134,10 @@ Crafty.c('GuyPlayer', {
     this.bind("EnterFrame", function(){
       // console.log(this._movement);
       // stop jump pose when reaching ground
-      if (this.y === this._prevY) {
+      if (this.y >= this._prevY) {
         // if (this._children.length === 2) this._children[1]._y=this._y+50;
-        this.image("assets/lior_stand.png");
+        // this.image("assets/lior_stand.png");
+        this.changeStandSprite();
       }
       this._prevY = this.y;
 
@@ -143,24 +163,48 @@ Crafty.c('GuyPlayer', {
     this.bind("KeyDown", function(e){
       if (!Crafty.isPaused()){
         if (e.key === 38) {
-          this.image("assets/lior_jump.png");
+          // this.image("assets/lior_jump.png");
+          this.changeJumpSprite();
           // if (this._children.length === 2) this._children[1]._y-=22;
           Crafty.audio.play("jump");
         }
         if (e.key === 37) {
+          this.origin("center");
           this.flip("X");
         }
         if (e.key === 39) {
+          this.origin("center");
           this.unflip("X");
         }
       }
     });
   },
+  changeJumpSprite: function(){
+    if (Game.active === "Noa") {
+      this.sprite(67,270,93,90);
+      this.attr({w: 74, h: 72});
+    }
+    else {
+      this.sprite(90,180,83,90);
+      this.attr({w: 69, h: 75});
+    }
+  },
+  changeStandSprite: function(){
+    if (Game.active === "Noa") {
+      this.sprite(163,270,51,90);
+      this.attr({w: 50, h: 75});
+    }
+    else {
+      this.sprite(180,180,61,90);
+      this.attr({w: 51, h: 75});
+    }
+  },
   bindCollisions: function(){
     this.onHit('Platform', this.stopMovement);
     this.onHit('Obstacle', this.loseLife);
-    this.onHit('Cloud', this.checkIfStand);
-    this.onHit('GirlPlayer', this.winOnMeet);
+    this.onHit('ShortCloud', this.checkIfStand);
+    this.onHit('LongCloud', this.checkIfStand);
+    // this.onHit('PassivePlayer', this.winOnMeet);
     this.onHit('Ring', this.gotRing);
     return this;
   },
@@ -181,7 +225,7 @@ Crafty.c('GuyPlayer', {
     Crafty.pause();
     var _this = this;
     setTimeout(function(){
-      _this.image("assets/lior_stand.png");
+      // _this.image("assets/ nd.png");
       _this.detach();
       Game.ring._attr("x",315);
       Game.ring._attr("y",20);
@@ -231,10 +275,9 @@ Crafty.c('GuyPlayer', {
 //   }
 // });
 
-Crafty.c('GirlPlayer', {
+Crafty.c('PassivePlayer', {
   init: function(){
-    this.requires('2D, Canvas, NoaStand')
-    .attr({w: 51, h:90});
+    this.requires('2D, Canvas').flip("X");
   }
 });
 
@@ -246,7 +289,7 @@ Crafty.c("Sun", {
 });
 Crafty.c("Ring", {
   init: function(){
-    this.requires('2D, Canvas, Image')
-    .image('assets/ring.png');
+    this.requires('2D, Canvas, RingSprite')
+    .attr({w:30, h: 18});
   }
 });

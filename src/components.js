@@ -33,18 +33,18 @@ Crafty.c('Rock', {
 Crafty.c("ShortCloud", {
   init: function(){
     this.requires('2D, Canvas')
-    .attr({w: 56.5, h:50})
+    .attr({w: 30, h:50})
     // .color("#000000")
-    .attach(Crafty.e("ShortCloudImage").attr({x: this._x, y:this._y-17, w: 56.5, h: 34}));
+    .attach(Crafty.e("ShortCloudImage").attr({x: this._x-14, y:this._y-17, w: 56.5, h: 34}));
   }
 });
 
 Crafty.c("LongCloud", {
   init: function(){
     this.requires('2D, Canvas')
-    .attr({w: 85.5, h:50})
+    .attr({w: 60, h:50})
     // .color("#000000")
-    .attach(Crafty.e("LongCloudImage").attr({x: this._x, y:this._y-19, w: 85.5, h: 38.5}));
+    .attach(Crafty.e("LongCloudImage").attr({x: this._x-15, y:this._y-19, w: 85.5, h: 38.5}));
   }
 });
 
@@ -182,7 +182,7 @@ Crafty.c('ActivePlayer', {
   changeJumpSprite: function(){
     if (Game.active === "Noa") {
       this.sprite(67,270,93,90);
-      this.attr({w: 74, h: 72});
+      this.attr({w: 90, h: 75});
     }
     else {
       this.sprite(90,180,83,90);
@@ -204,14 +204,19 @@ Crafty.c('ActivePlayer', {
     this.onHit('Obstacle', this.loseLife);
     this.onHit('ShortCloud', this.checkIfStand);
     this.onHit('LongCloud', this.checkIfStand);
-    // this.onHit('PassivePlayer', this.winOnMeet);
+    this.onHit('PassivePlayer', this.winOnMeet);
     this.onHit('Ring', this.gotRing);
     return this;
   },
   gotRing: function(ring){
-    this.attach(ring[0].obj);
-    ring[0].obj._attr("y",(this.y+50));
-    ring[0].obj._attr("x",(this.x+45));
+    Crafty.audio.play("ring");
+    // this.attach(ring[0].obj);
+    this._hasRing=true;
+    ring[0].obj._attr("y",-50);
+    ring[0].obj._attr("x",-50);
+    // this.unbind("EnterFrame");
+    // this.onHit('Ring', this);
+    // this.kill();
   },
   stopMovement: function(platform){
     var platform_x = platform[0].obj.x;
@@ -226,9 +231,10 @@ Crafty.c('ActivePlayer', {
     var _this = this;
     setTimeout(function(){
       // _this.image("assets/ nd.png");
-      _this.detach();
-      Game.ring._attr("x",315);
-      Game.ring._attr("y",20);
+      // _this.detach();
+      Game.ring._attr("x",815);
+      Game.ring._attr("y",190);
+      _this._hasRing=false;
       _this.lives-=1;
       _this._attr("x",0);
       _this._attr("y",278);
@@ -264,8 +270,17 @@ Crafty.c('ActivePlayer', {
     // console.log(this._gy);
   },
   winOnMeet: function(girl){
-    Crafty.audio.play("success");
-    Crafty.scene("finish");
+    if (this._hasRing) {
+      Crafty.audio.play("success");
+      Crafty.scene("finish");
+    }
+    else {
+      Crafty.audio.play("no_ring");
+      this._slapped = true;
+      this.requires("Tween").tween({x: 0, _up: 2990}, 20);
+      this._slapped = false;
+      // .tween({x: 0, y:200}, 200);
+    }
   }
 });
 

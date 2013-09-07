@@ -34,6 +34,8 @@ Game = {
           "assets/sounds/lostlife.wav",
           "assets/sounds/success.wav",
           "assets/sounds/issajump.wav",
+          "assets/sounds/no_ring.wav",
+          "assets/sounds/ring.wav",
           "assets/spritemap.png",
           "assets/rock.png",
           "assets/wave.png",
@@ -61,6 +63,8 @@ Game = {
       Crafty.audio.add("lostlife", "assets/sounds/lostlife.wav");
       Crafty.audio.add("success", "assets/sounds/success.wav");
       Crafty.audio.add("issajump", "assets/sounds/issajump.wav");
+      Crafty.audio.add("ring", "assets/sounds/ring.wav");
+      Crafty.audio.add("no_ring", "assets/sounds/no_ring.wav");
 
       Crafty.background('#c7daf1');
       
@@ -98,20 +102,21 @@ Game = {
       Crafty.e("Rock").attr({x: 950, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
       Crafty.e("Rock").attr({x: 1005, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
       
-      Game.ring = Crafty.e('Ring').attr({x: 515, y: 120});
+      Game.ring = Crafty.e('Ring').attr({x: 815, y: 190});
       
       // Crafty.e("ShortCloud").attr({x: 160, y: 255});
-      Crafty.e("ShortCloud").attr({x: 240, y: 380});
       // Crafty.e("ShortCloud").attr({x: 20, y: 140});
       // Crafty.e("ShortCloud").attr({x: 150, y: 80});
       // Crafty.e("ShortCloud").attr({x: 290, y: 60});
 
       // Crafty.e("ShortCloudImage").attr({x: 895, y: 60});
       // Crafty.e("ShortCloudImage").attr({x: 825, y: 110});
-      Crafty.e("LongCloudImage").attr({x: 695, y: 190});
+      Crafty.e("ShortCloud").attr({x: 240, y: 380});
+      Crafty.e("LongCloud").attr({x: 575, y: 150});
+      Crafty.e("LongCloud").attr({x: 395, y: 270});
       Crafty.e("ShortCloudImage").attr({x: 75, y: 290});
       
-      Crafty.e("LongCloud").attr({x: 395, y: 270});
+      Crafty.e("ShortCloudImage").attr({x: 800, y: 290});
       
       // Crafty.e("LongCloudImage").attr({x: 395, y: 90});
       // Crafty.e("ShortCloudImage").attr({x: 470, y: 40});

@@ -39,12 +39,23 @@ Game = {
         Crafty.audio.canPlay();
         asset_list.push(
           "assets/sounds/jump.wav",
+          "assets/sounds/jump.mp3",
+          "assets/sounds/jump.ogg",
           "assets/sounds/lostlife.wav",
-          "assets/sounds/issajump.wav",
+          "assets/sounds/lostlife.mp3",
+          "assets/sounds/lostlife.ogg",
           "assets/sounds/no_ring.wav",
+          "assets/sounds/no_ring.ogg",
+          "assets/sounds/no_ring.mp3",
           "assets/sounds/ring.wav",
+          "assets/sounds/ring.ogg",
+          "assets/sounds/ring.mp3",
           "assets/sounds/cat_scream.wav",
+          "assets/sounds/cat_scream.ogg",
+          "assets/sounds/cat_scream.mp3",
           "assets/sounds/dog_bark.wav",
+          "assets/sounds/dog_bark.ogg",
+          "assets/sounds/dog_bark.mp3",
           "assets/sounds/music.wav",
           "assets/sounds/music.ogg",
           "assets/sounds/music.mp3",
@@ -107,11 +118,10 @@ Game = {
 
     // game scene
     Crafty.scene("main", function(){
-      Crafty.audio.add("jump", "assets/sounds/jump.wav");
-      Crafty.audio.add("lostlife", "assets/sounds/lostlife.wav");
-      Crafty.audio.add("issajump", "assets/sounds/issajump.wav");
-      Crafty.audio.add("ring", "assets/sounds/ring.wav");
-      Crafty.audio.add("no_ring", "assets/sounds/no_ring.wav");
+      Crafty.audio.add("jump", ["assets/sounds/jump.wav", "assets/sounds/jump.ogg", "assets/sounds/jump.mp3"]);
+      Crafty.audio.add("lostlife", ["assets/sounds/lostlife.wav, assets/sounds/lostlife.ogg", "assets/sounds/lostlife.mp3"]);
+      Crafty.audio.add("ring", ["assets/sounds/ring.wav", "assets/sounds/ring.ogg", "assets/sounds/ring.mp3"]);
+      Crafty.audio.add("no_ring", ["assets/sounds/no_ring.wav", "assets/sounds/no_ring.ogg", "assets/sounds/no_ring.mp3"]);
       Crafty.audio.add("game_music", ["assets/sounds/gamemusic.wav", "assets/sounds/gamemusic.ogg", "assets/sounds/gamemusic.mp3"]);
 
       Crafty.background('#c7daf1');
@@ -199,10 +209,10 @@ Game = {
       document.getElementsByClassName("info")[0].style.display="none";
       Crafty.background('#ffffff');
       
-      Crafty.audio.add("cat_scream", "assets/sounds/cat_scream.wav");
-      Crafty.audio.add("dog_bark", "assets/sounds/dog_bark.wav");
+      Crafty.audio.add("cat_scream", ["assets/sounds/cat_scream.wav","assets/sounds/cat_scream.ogg","assets/sounds/cat_scream.mp3"]);
+      Crafty.audio.add("dog_bark", ["assets/sounds/dog_bark.wav","assets/sounds/dog_bark.ogg","assets/sounds/dog_bark.mp3"]);
       Crafty.audio.add("music", ["assets/sounds/music.wav", "assets/sounds/music.ogg", "assets/sounds/music.mp3"]);
-      Crafty.audio.add("ring", "assets/sounds/ring.wav");
+      Crafty.audio.add("ring", ["assets/sounds/ring.wav", "assets/sounds/ring.ogg", "assets/sounds/ring.mp3"]);
       Crafty.audio.play("music", -1, 0.6);
 
       var heart = Crafty.e('Heart').attr({x: 300, y: 200, w: 60, h: 50, alpha: 0 }).requires("Tween");

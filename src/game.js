@@ -46,8 +46,10 @@ Game = {
           "assets/sounds/dog_bark.wav",
           "assets/sounds/music.wav",
           "assets/sounds/music.ogg",
+          "assets/sounds/music.mp3",
           "assets/sounds/gamemusic.ogg",
-          "assets/sounds/gamemusic.wav"
+          "assets/sounds/gamemusic.wav",
+          "assets/sounds/gamemusic.mp3"
         );
       }
 
@@ -106,7 +108,7 @@ Game = {
       Crafty.audio.add("issajump", "assets/sounds/issajump.wav");
       Crafty.audio.add("ring", "assets/sounds/ring.wav");
       Crafty.audio.add("no_ring", "assets/sounds/no_ring.wav");
-      Crafty.audio.add("game_music", ["assets/sounds/gamemusic.wav", "assets/sounds/gamemusic.ogg"]);
+      Crafty.audio.add("game_music", ["assets/sounds/gamemusic.wav", "assets/sounds/gamemusic.ogg", "assets/sounds/gamemusic.mp3"]);
 
       Crafty.background('#c7daf1');
       Crafty.audio.play("game_music", -1, 0.5);
@@ -195,7 +197,7 @@ Game = {
       
       Crafty.audio.add("cat_scream", "assets/sounds/cat_scream.wav");
       Crafty.audio.add("dog_bark", "assets/sounds/dog_bark.wav");
-      Crafty.audio.add("music", ["assets/sounds/music.wav", "assets/sounds/music.ogg"]);
+      Crafty.audio.add("music", ["assets/sounds/music.wav", "assets/sounds/music.ogg", "assets/sounds/music.mp3"]);
       Crafty.audio.add("ring", "assets/sounds/ring.wav");
       Crafty.audio.play("music", -1, 0.6);
 

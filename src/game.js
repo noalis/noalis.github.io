@@ -26,8 +26,17 @@ Game = {
         .text("Loading...")
         .textFont({ size: '108px' })
         .textColor("#FFFFFF");
-      Crafty.load(
-        [
+      
+      var asset_list = [
+        "assets/spritemap.png",
+        "assets/rock.png",
+        "assets/wave.png",
+        "assets/bg.png",
+        "assets/invitext.png"
+      ];
+      
+      if (Crafty.support.audio) {
+        asset_list.push(
           "assets/sounds/jump.wav",
           "assets/sounds/lostlife.wav",
           "assets/sounds/issajump.wav",
@@ -35,17 +44,17 @@ Game = {
           "assets/sounds/ring.wav",
           "assets/sounds/cat_scream.wav",
           "assets/sounds/dog_bark.wav",
-          "assets/sounds/music.mp3",
-          "assets/sounds/gamemusic.mp3",
-          "assets/spritemap.png",
-          "assets/rock.png",
-          "assets/wave.png",
-          "assets/bg.png",
-          "assets/invitext.png"
-        ],
+          "assets/sounds/music.wav",
+          "assets/sounds/music.ogg",
+          "assets/sounds/gamemusic.ogg",
+          "assets/sounds/gamemusic.wav"
+        );
+      }
+
+      Crafty.load(asset_list,
         function() {
           //when loaded
-          Crafty.scene("main"); //go to main scene
+          Crafty.scene("choose"); //go to main scene
         },
 
         function(e) {
@@ -58,6 +67,38 @@ Game = {
       );
     });
 
+    // choose player
+    Crafty.scene("choose", function(){
+      Crafty.background('#efefef');
+      Crafty.e('ChooseText').attr({x: 550, y: Game.height()/2});
+      var lior = Crafty.e('LiorStand').attr({x: 200, y: 200});
+      lior.addComponent("Mouse");
+      lior.bind('MouseOver', function() {
+        this.sprite(90,180,83,90).attr({w: 83});
+      });
+      lior.bind('MouseOut', function(){
+        this.sprite(180,180,61,90).attr({w: 61});
+      });
+      lior.bind('Click', function(){
+        Game.active="Lior";
+        Game.passive="Noa";
+        Crafty.scene("main");
+      });
+      var noa = Crafty.e('NoaStand').attr({x: 400, y: 200});
+      noa.addComponent("Mouse").flip("X");
+      noa.bind('MouseOver', function() {
+        this.sprite(67,270,74,72).attr({w: 74, h: 72});
+      });
+      noa.bind('MouseOut', function(){
+        this.sprite(163,270,51,90).attr({w: 51, h: 90});
+      });
+      noa.bind('Click', function(){
+        Game.active="Noa";
+        Game.passive="Lior";
+        Crafty.scene("main");
+      });
+    });
+
     // game scene
     Crafty.scene("main", function(){
       Crafty.audio.add("jump", "assets/sounds/jump.wav");
@@ -65,7 +106,7 @@ Game = {
       Crafty.audio.add("issajump", "assets/sounds/issajump.wav");
       Crafty.audio.add("ring", "assets/sounds/ring.wav");
       Crafty.audio.add("no_ring", "assets/sounds/no_ring.wav");
-      Crafty.audio.add("game_music", "assets/sounds/gamemusic.mp3");
+      Crafty.audio.add("game_music", ["assets/sounds/gamemusic.wav", "assets/sounds/gamemusic.ogg"]);
 
       Crafty.background('#c7daf1');
       Crafty.audio.play("game_music", -1, 0.5);
@@ -154,7 +195,7 @@ Game = {
       
       Crafty.audio.add("cat_scream", "assets/sounds/cat_scream.wav");
       Crafty.audio.add("dog_bark", "assets/sounds/dog_bark.wav");
-      Crafty.audio.add("music", "assets/sounds/music.mp3");
+      Crafty.audio.add("music", ["assets/sounds/music.wav", "assets/sounds/music.ogg"]);
       Crafty.audio.add("ring", "assets/sounds/ring.wav");
       Crafty.audio.play("music", -1, 0.6);
 

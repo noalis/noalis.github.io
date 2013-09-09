@@ -11,7 +11,8 @@ Crafty.sprite("assets/spritemap.png", {
   LiorWeddingSprite: [241,180,144,180],
   NoaWeddingSprite: [391,180,127,180],
   HeartSprite: [435, 90, 98, 90],
-  SealSprite: [384, 360, 164, 90]
+  SealSprite: [384, 360, 164, 90],
+  ChooseTextSprite: [0, 450, 358, 52]
 });
 
 Crafty.sprite("assets/invitext.png", {
@@ -53,6 +54,21 @@ Crafty.c("LongCloud", {
     .attr({w: 60, h:50})
     // .color("#000000")
     .attach(Crafty.e("LongCloudImage").attr({x: this._x-15, y:this._y-19, w: 85.5, h: 38.5}));
+  }
+});
+Crafty.c("LiorStand", {
+  init: function(){
+    this.requires('2D, Canvas, LiorStandSprite');
+  }
+});
+Crafty.c("NoaStand", {
+  init: function(){
+    this.requires('2D, Canvas, NoaStandSprite');
+  }
+});
+Crafty.c("ChooseText", {
+  init: function(){
+    this.requires('2D, Canvas, ChooseTextSprite');
   }
 });
 

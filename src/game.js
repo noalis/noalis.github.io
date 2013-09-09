@@ -36,6 +36,7 @@ Game = {
       ];
       
       if (Crafty.support.audio) {
+        Crafty.audio.canPlay();
         asset_list.push(
           "assets/sounds/jump.wav",
           "assets/sounds/lostlife.wav",
@@ -60,11 +61,14 @@ Game = {
         },
 
         function(e) {
+          console.log(e);
           //progress
         },
 
         function(e) {
           //uh oh, error loading
+          console.log("error!");
+          console.log(e);
         }
       );
     });

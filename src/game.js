@@ -119,7 +119,7 @@ Game = {
     // game scene
     Crafty.scene("main", function(){
       Crafty.audio.add("jump", ["assets/sounds/jump.wav", "assets/sounds/jump.ogg", "assets/sounds/jump.mp3"]);
-      Crafty.audio.add("lostlife", ["assets/sounds/lostlife.wav, assets/sounds/lostlife.ogg", "assets/sounds/lostlife.mp3"]);
+      Crafty.audio.add("lostlife", ["assets/sounds/lostlife.wav", "assets/sounds/lostlife.ogg", "assets/sounds/lostlife.mp3"]);
       Crafty.audio.add("ring", ["assets/sounds/ring.wav", "assets/sounds/ring.ogg", "assets/sounds/ring.mp3"]);
       Crafty.audio.add("no_ring", ["assets/sounds/no_ring.wav", "assets/sounds/no_ring.ogg", "assets/sounds/no_ring.mp3"]);
       Crafty.audio.add("game_music", ["assets/sounds/gamemusic.wav", "assets/sounds/gamemusic.ogg", "assets/sounds/gamemusic.mp3"]);

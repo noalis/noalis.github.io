@@ -161,26 +161,13 @@ Game = {
       Crafty.e("Rock").attr({x: 1005, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
       
       Game.ring = Crafty.e('Ring').attr({x: 815, y: 190});
-      
-      // Crafty.e("ShortCloud").attr({x: 160, y: 255});
-      // Crafty.e("ShortCloud").attr({x: 20, y: 140});
-      // Crafty.e("ShortCloud").attr({x: 150, y: 80});
-      // Crafty.e("ShortCloud").attr({x: 290, y: 60});
 
-      // Crafty.e("ShortCloudImage").attr({x: 895, y: 60});
-      // Crafty.e("ShortCloudImage").attr({x: 825, y: 110});
       Crafty.e("ShortCloud").attr({x: 240, y: 380});
       Crafty.e("LongCloud").attr({x: 575, y: 150});
       Crafty.e("LongCloud").attr({x: 395, y: 270});
       Crafty.e("ShortCloudImage").attr({x: 75, y: 290});
-      
       Crafty.e("ShortCloudImage").attr({x: 800, y: 290});
       
-      // Crafty.e("LongCloudImage").attr({x: 395, y: 90});
-      // Crafty.e("ShortCloudImage").attr({x: 470, y: 40});
-      // Crafty.e("LongCloudImage").attr({x: 520, y: 90});
-
-
       
       var passive = Crafty.e('PassivePlayer');
       if (Game.passive === "Lior") {
@@ -191,16 +178,11 @@ Game = {
         passive.requires("NoaStandSprite");
         passive.attr({x: Game.width()-55, y: Game.height()-107, w: 45, h: 75});
       }
-
+      
       var seal1 = Crafty.e('SealHorizontal').attr({x: 480, y:373});
       seal1.bind("EnterFrame", function(){
         this.go();
       });
-
-      // var text = Crafty.e("2D, Canvas, Text").attr({ x: 100, y: 100 }).text("Lives: " + Game.lives);
-      // text.bind("EnterFrame", function(){
-      //   this.text("Lives: " + Game.lives);
-      // });
     });
 
     // finish screen

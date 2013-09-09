@@ -7,12 +7,15 @@ Crafty.sprite("assets/spritemap.png", {
   LiorStandSprite:[180,180,61,90],
   ShortCloudSprite: [278, 16, 114, 74],
   LongCloudSprite: [394, 13, 170, 77],
-  RingSprite: [536, 90, 153, 90],
+  RingSprite: [536, 90, 30, 17],
   LiorWeddingSprite: [241,180,144,180],
   NoaWeddingSprite: [391,180,127,180],
   HeartSprite: [435, 90, 98, 90],
   SealSprite: [384, 360, 164, 90],
-  ChooseTextSprite: [0, 450, 358, 52]
+  ChooseTextSprite: [0, 450, 358, 52],
+  PutARingSprite: [517,180,164,97],
+  LiorMeetSprite: [595,0,72,90],
+  NoaMeetSprite: [613,90,54,90]
 });
 
 Crafty.sprite("assets/invitext.png", {
@@ -69,6 +72,11 @@ Crafty.c("NoaStand", {
 Crafty.c("ChooseText", {
   init: function(){
     this.requires('2D, Canvas, ChooseTextSprite');
+  }
+});
+Crafty.c("PutARing", {
+  init: function(){
+    this.requires('2D, Canvas, PutARingSprite');
   }
 });
 
@@ -321,20 +329,31 @@ Crafty.c('ActivePlayer', {
     if (this._hasRing) {
       
       Crafty.audio.remove("game_music");
-      Crafty.scene("finish");
+      Crafty.pause();
+      this.destroy();
+      girl[0].obj.destroy();
+      var lior = Crafty.e("LiorMeet").attr({x: Game.width()-106, y: 342});
+      var noa = Crafty.e("NoaMeet").attr({x: Game.width()-46, y: 342});
+      noa.flip("X");
+      var ring = Crafty.e("Ring").attr({x: Game.width()-65, y: 316 });
+      // add Zelda sound effect (mp3/wav/ogg)
+      setTimeout(function(){
+        Crafty.pause();
+        ring.destroy();
+        lior.requires("Tween").tween({x:Game.width()+100}, 100);
+        noa.unflip("X");
+        noa.requires("Tween").tween({x:Game.width()+100}, 100);
+      }, 2000);
+      // Crafty.scene("finish");
     }
     else {
       Crafty.audio.play("no_ring");
+      var shoulda = Crafty.e("PutARing").attr({ x: Game.width()-200, y: 240 });
+      setTimeout(function(){ shoulda.destroy(); }, 4000);
       this._slapped = true;
       this.requires("Tween").tween({x: 0, _up: 2990}, 20).bind("TweenEnd", function(){
         this._slapped = false;
       });
-      Crafty.e("2D, Canvas, Text").attr({ x: Game.width()-100, y: 200, w: 100, h: 100 })
-      .textFont({ size: '12px' })
-      .text("If you like it - ");
-      Crafty.e("2D, Canvas, Text").attr({ x: Game.width()-110, y: 215, w: 100, h: 100 })
-      .textFont({ size: '12px' })
-      .text("put a RING on it");
     }
   }
 });
@@ -365,8 +384,7 @@ Crafty.c("InviText", {
 });
 Crafty.c("Ring", {
   init: function(){
-    this.requires('2D, Canvas, RingSprite')
-    .attr({w:30, h: 18});
+    this.requires('2D, Canvas, RingSprite');
   }
 });
 Crafty.c("LiorWedding", {
@@ -374,9 +392,22 @@ Crafty.c("LiorWedding", {
     this.requires('2D, Canvas, LiorWeddingSprite');
   }
 });
+
 Crafty.c("NoaWedding", {
   init: function(){
     this.requires('2D, Canvas, NoaWeddingSprite').flip("X");
+  }
+});
+Crafty.c("LiorMeet", {
+  init: function(){
+    this.requires('2D, Canvas, LiorMeetSprite')
+    .attr({w: 60, h: 75});
+  }
+});
+Crafty.c("NoaMeet", {
+  init: function(){
+    this.requires('2D, Canvas, NoaMeetSprite')
+    .attr({w: 45, h: 75});
   }
 });
 Crafty.c("Heart", {

@@ -61,7 +61,10 @@ Game = {
           "assets/sounds/music.mp3",
           "assets/sounds/gamemusic.ogg",
           "assets/sounds/gamemusic.wav",
-          "assets/sounds/gamemusic.mp3"
+          "assets/sounds/gamemusic.mp3",
+          "assets/sounds/meet.mp3",
+          "assets/sounds/meet.ogg",
+          "assets/sounds/meet.wav"
         );
       }
 
@@ -86,7 +89,7 @@ Game = {
 
     // choose player
     Crafty.scene("choose", function(){
-      Crafty.background('#efefef');
+      Crafty.background('#ffffff');
       Crafty.e('ChooseText').attr({x: 550, y: Game.height()/2});
       var lior = Crafty.e('LiorStand').attr({x: 200, y: 200});
       lior.addComponent("Mouse");
@@ -123,6 +126,7 @@ Game = {
       Crafty.audio.add("ring", ["assets/sounds/ring.wav", "assets/sounds/ring.ogg", "assets/sounds/ring.mp3"]);
       Crafty.audio.add("no_ring", ["assets/sounds/no_ring.wav", "assets/sounds/no_ring.ogg", "assets/sounds/no_ring.mp3"]);
       Crafty.audio.add("game_music", ["assets/sounds/gamemusic.wav", "assets/sounds/gamemusic.ogg", "assets/sounds/gamemusic.mp3"]);
+      Crafty.audio.add("meet", ["assets/sounds/meet.wav", "assets/sounds/meet.ogg", "assets/sounds/meet.mp3"]);
 
       Crafty.background('#c7daf1');
       Crafty.audio.play("game_music", -1, 0.5);
@@ -245,7 +249,7 @@ Game = {
           });
           
         });
-      }, 5000);
+      }, 2000);
       
       // var lior = Crafty.e('PassivePlayer').attr({x: 100, y: 100});
       // var guy = Crafty.e('ActivePlayer').attr({x: 400, y:181});

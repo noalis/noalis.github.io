@@ -332,19 +332,35 @@ Crafty.c('ActivePlayer', {
       Crafty.pause();
       this.destroy();
       girl[0].obj.destroy();
-      var lior = Crafty.e("LiorMeet").attr({x: Game.width()-106, y: 342});
-      var noa = Crafty.e("NoaMeet").attr({x: Game.width()-46, y: 342});
-      noa.flip("X");
-      var ring = Crafty.e("Ring").attr({x: Game.width()-65, y: 316 });
-      // add Zelda sound effect (mp3/wav/ogg)
+      
+      var lior = Crafty.e("LiorMeet");
+      var noa = Crafty.e("NoaMeet");
+      var ring = Crafty.e("Ring");
+      if (Game.active === "Lior") {
+        lior.attr({x: Game.width()-106, y: 342});
+        noa.attr({x: Game.width()-46, y: 342});
+        noa.flip("X");
+        ring.attr({x: Game.width()-65, y: 316 });
+      }
+      else {
+        noa.attr({x: Game.width()-116, y: 342});
+        lior.attr({x: Game.width()-56, y: 342});
+        lior.flip("X");
+        ring.attr({x: Game.width()-75, y: 316 });
+      }
+
+      Crafty.audio.play("meet");
+
       setTimeout(function(){
         Crafty.pause();
         ring.destroy();
+        if (Game.active === "Lior") { noa.unflip("X"); }
+        else { lior.unflip("X"); }
         lior.requires("Tween").tween({x:Game.width()+100}, 100);
-        noa.unflip("X");
-        noa.requires("Tween").tween({x:Game.width()+100}, 100);
-      }, 2000);
-      // Crafty.scene("finish");
+        noa.requires("Tween").tween({x:Game.width()+100}, 100).bind("TweenEnd", function(){
+          Crafty.scene("finish");
+        });
+      }, 3000);
     }
     else {
       Crafty.audio.play("no_ring");

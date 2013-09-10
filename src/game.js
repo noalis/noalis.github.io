@@ -183,7 +183,7 @@ Game = {
         passive.attr({x: Game.width()-55, y: Game.height()-107, w: 45, h: 75});
       }
       
-      var seal1 = Crafty.e('SealHorizontal').attr({x: 480, y:373});
+      var seal1 = Crafty.e('SealHorizontal').attr({x: 480, y:380});
       seal1.bind("EnterFrame", function(){
         this.go();
       });

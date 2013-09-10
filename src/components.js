@@ -11,7 +11,7 @@ Crafty.sprite("assets/spritemap.png", {
   LiorWeddingSprite: [241,180,144,180],
   NoaWeddingSprite: [391,180,127,180],
   HeartSprite: [435, 90, 98, 90],
-  SealSprite: [384, 360, 164, 90],
+  SealSprite: [384, 361, 164, 90],
   ChooseTextSprite: [0, 450, 358, 52],
   PutARingSprite: [517,180,164,97],
   LiorMeetSprite: [595,0,72,90],
@@ -98,13 +98,13 @@ Crafty.c('SealAnimation', {
     this.requires('Obstacle, SpriteAnimation, SealSprite')
     .animate('SealRun', [[384,360],[548,360]])
     .animate('SealRun', 15, -1)
-    .attr({w: 76, h: 45})
+    .attr({w: 61, h: 36})
     .origin("center");
   }
 });
 
 Crafty.c('SealHorizontal', {
-  speedX: -4,
+  speedX: -2.5,
   minX: 306,
   maxX: 475,
   init: function(){

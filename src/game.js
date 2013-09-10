@@ -90,8 +90,8 @@ Game = {
     // choose player
     Crafty.scene("choose", function(){
       Crafty.background('#ffffff');
-      Crafty.e('ChooseText').attr({x: 550, y: Game.height()/2});
-      var lior = Crafty.e('LiorStand').attr({x: 200, y: 200});
+      Crafty.e('ChooseText').attr({x: 349, y: Game.height()/2-26});
+      var lior = Crafty.e('LiorStand').attr({x: 150, y: 180});
       lior.addComponent("Mouse");
       lior.bind('MouseOver', function() {
         this.sprite(90,180,83,90).attr({w: 83});
@@ -104,7 +104,7 @@ Game = {
         Game.passive="Noa";
         Crafty.scene("main");
       });
-      var noa = Crafty.e('NoaStand').attr({x: 400, y: 200});
+      var noa = Crafty.e('NoaStand').attr({x: 837, y: 180});
       noa.addComponent("Mouse").flip("X");
       noa.bind('MouseOver', function() {
         this.sprite(67,270,74,72).attr({w: 74, h: 72});
@@ -137,13 +137,11 @@ Game = {
         this.go();
       });
 
-      // build map with rocks
       var i, j;
       for (i=0; i<Game.map_grid.width*39; i+=39) {
         Crafty.e("Wave").attr({x: i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height+10});
       }
 
-      
       var active = Crafty.e('ActivePlayer');
       if (Game.active === "Noa") {
         active.requires("NoaStandSprite");
@@ -159,6 +157,8 @@ Game = {
       for (i=0; i<Game.map_grid.width-5; i+=5) {
         Crafty.e("Rock").attr({x: Game.map_grid.tile.width*i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
       }
+      Crafty.e("Rock").attr({x: 55, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
+      Crafty.e("Rock").attr({x: 110, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
       Crafty.e("Rock").attr({x: 375, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
       Crafty.e("Rock").attr({x: 430, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
       Crafty.e("Rock").attr({x: 950, y: (Game.map_grid.height-1)*Game.map_grid.tile.height});
@@ -169,8 +169,8 @@ Game = {
       Crafty.e("ShortCloud").attr({x: 240, y: 380});
       Crafty.e("LongCloud").attr({x: 575, y: 150});
       Crafty.e("LongCloud").attr({x: 395, y: 270});
-      Crafty.e("ShortCloudImage").attr({x: 75, y: 290});
-      Crafty.e("ShortCloudImage").attr({x: 800, y: 290});
+      // Crafty.e("ShortCloudImage").attr({x: 75, y: 290});
+      // Crafty.e("ShortCloudImage").attr({x: 800, y: 290});
       
       
       var passive = Crafty.e('PassivePlayer');
@@ -201,9 +201,9 @@ Game = {
       Crafty.audio.add("ring", ["assets/sounds/ring.wav", "assets/sounds/ring.ogg", "assets/sounds/ring.mp3"]);
       Crafty.audio.play("music", -1, 0.6);
 
-      var heart = Crafty.e('Heart').attr({x: 300, y: 200, w: 60, h: 50, alpha: 0 }).requires("Tween");
-      var lior = Crafty.e('LiorWedding').attr({x: 150, y: 222, alpha: 0 }).requires("Tween");
-      var noa = Crafty.e('NoaWedding').attr({x: 360, y: 222, alpha: 0 }).requires("Tween");
+      var heart = Crafty.e('Heart').attr({x: 300, y: 125, w: 60, h: 50, alpha: 0 }).requires("Tween");
+      var lior = Crafty.e('LiorWedding').attr({x: 150, y: 147, alpha: 0 }).requires("Tween");
+      var noa = Crafty.e('NoaWedding').attr({x: 360, y: 147, alpha: 0 }).requires("Tween");
       var dog = Crafty.e("Dog").attr({x: Game.width(), y: 200, w: 147, h: 90}).requires("Tween");
       var cat = Crafty.e("Cat").attr({x: Game.width(), y: 200, w: 100, h: 90}).requires("Tween");
       var text = Crafty.e("InviText").attr({x: Game.width()-460, y:0, alpha: 0}).requires("Tween");
@@ -227,20 +227,20 @@ Game = {
               lior.tween({alpha: 1}, 50);
               noa.tween({alpha: 1}, 50).bind("TweenEnd", function(){
                 noa.unbind("TweenEnd");
-                heart.tween({alpha: 1, y: 150}, 50).bind("TweenEnd", function(){
+                heart.tween({alpha: 1, y: 75}, 50).bind("TweenEnd", function(){
                   Crafty.audio.play("ring");
                   heart.unbind("TweenEnd");
                   cat.flip("X");
                   dog.unflip("X");
-                  dog.attr({y: 312});
-                  cat.attr({x: -300, y: 312});
+                  dog.attr({y: 237});
+                  cat.attr({x: -300, y: 237});
                   dog.tween({x: 500}, 100).bind("TweenEnd", function(){
                     dog.stop();
-                    dog.sprite(340, 90, 87, 90).attr({w: 87, h: 90, y: 312 });
+                    dog.sprite(340, 90, 87, 90).attr({w: 87, h: 90, y: 237 });
                   });
                   cat.tween({x: 55}, 100).bind("TweenEnd", function(){
                     cat.stop();
-                    cat.sprite(204, 0, 70, 90).attr({w: 70, h: 90, y: 312 });
+                    cat.sprite(204, 0, 70, 90).attr({w: 70, h: 90, y: 237 });
                     text.tween({alpha: 1}, 50);
                   });
                 });

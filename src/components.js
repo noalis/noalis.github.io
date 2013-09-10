@@ -121,7 +121,7 @@ Crafty.c('SealHorizontal', {
 Crafty.c('SealVertical', {
   speedY: 1,
   minY: 0,
-  maxY: 450,
+  maxY: 700,
   init: function(){
     this.requires('Obstacle, SealAnimation');
     this.rotation=90;
@@ -131,7 +131,7 @@ Crafty.c('SealVertical', {
     this.y += this.speedY;
     this.speedY += 0.3;
     if (this.y >= this.maxY) {
-      this.speedY = -15;
+      this.speedY = -16.5;
     }
     if (this.speedY < 0) { this.attr("rotation",90); }
     else { this.attr("rotation",-90); }

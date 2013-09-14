@@ -12,7 +12,12 @@
 </head>
 <body>
   <script>
-    window.addEventListener('load', Game.start);
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+      window.location.href="invi.html"
+    }
+    else {
+      window.addEventListener('load', Game.start);
+    }
   </script>
   <div id="stage" class="stage"></div>
   <div class="if-error">

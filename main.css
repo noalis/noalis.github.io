@@ -40,6 +40,8 @@ a:visited { color: blue; }
 .stage {
   margin: 0 auto;
   border: 10px solid #121212;
+  height: 448px;
+  width: 1056px;
 }
 .invi {
   width: 1036px;

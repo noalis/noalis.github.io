@@ -18,6 +18,9 @@
     window.addEventListener('load', Game.start);
   </script>
   <div id="stage" class="stage"></div>
+  <div class="if-error">
+      <h5 style="font-weight: normal;">(לא רואים את המשחק? <a href="invi.html">לחצו כאן כדי לראות את ההזמנה</a>)</h5>
+    </div>
   <div class="info">
     <div class="instructions">
       <h1>נועה וליאור מתחתנים</h1>
@@ -26,13 +29,16 @@
       <strong>ימינה</strong>, <strong>שמאלה</strong> ו-<strong>למעלה</strong>.</p>
     </div>
     <div class="cheaters">
-      <h2>עצלנים? נתקעתם?</h2>
-      <a href="#" onClick="Crafty.scene('finish');">לחצו כאן כדי לראות את פרטי האירוע</a>
+      <h2 style="margin-top: 25px;">עצלנים? נתקעתם?</h2>
       <p>
-        <a href="assets/map.jpg" target="_blank">מפת הגעה</a>
+        <a href="#" onClick="Crafty.scene('finish');">לחצו כאן כדי לראות את פרטי האירוע</a>
       </p>
     </div>
   </div>
-
+  <div class="map">
+    <h5 style="font-weight: normal;">
+      (<a href="assets/map.png" target="_blank">לחצו כאן למפת הגעה</a>)
+    </h5>
+  </div>
 </body>
 </html>

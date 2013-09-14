@@ -41,7 +41,11 @@ a:visited { color: blue; }
   margin: 0 auto;
   border: 10px solid #121212;
 }
-.info {
+.invi {
+  width: 1036px;
+  margin: 0 auto;
+}
+.info, .if-error, .map {
   width: 1036px;
   height: 150px;
   margin: 0 auto;
@@ -50,8 +54,10 @@ a:visited { color: blue; }
   padding: 0 20px;
   margin-top: 10px;
 }
+.info, .map { display: none; }
+.if-error, .map { background-color: #efefef; text-align: center; }
 .instructions, .cheaters {
   width: 50%;
   float: right;
-  text-align: center;
+  text-align: center;  
 }

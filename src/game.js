@@ -112,6 +112,8 @@ Game = {
         Game.active="Lior";
         Game.passive="Noa";
         Crafty.scene("main");
+        document.getElementsByClassName("if-error")[0].style.display="none";
+        document.getElementsByClassName("info")[0].style.display="block";
       });
       var noa = Crafty.e('NoaStand').attr({x: 837, y: 180});
       noa.addComponent("Mouse").flip("X");
@@ -125,6 +127,8 @@ Game = {
         Game.active="Noa";
         Game.passive="Lior";
         Crafty.scene("main");
+        document.getElementsByClassName("if-error")[0].style.display="none";
+        document.getElementsByClassName("info")[0].style.display="block";
       });
     });
 
@@ -249,6 +253,7 @@ Game = {
                     cat.stop();
                     cat.sprite(204, 0, 70, 90).attr({w: 70, h: 90, y: 237 });
                     text.tween({alpha: 1}, 50);
+                    setTimeout(function(){ document.getElementsByClassName("map")[0].style.display="block"; }, 2000);
                   });
                 });
               });

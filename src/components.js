@@ -96,6 +96,7 @@ Crafty.c("LongCloudImage", {
 Crafty.c('SealAnimation', {
   init: function(){
     this.requires('Obstacle, SpriteAnimation, SealSprite')
+    .collision([0,0],[0,40],[50,40],[50,0])
     .animate('SealRun', [[384,360],[548,360]])
     .animate('SealRun', 15, -1)
     .attr({w: 61, h: 36})
@@ -177,6 +178,8 @@ Crafty.c('ActivePlayer', {
   _prevY: null,
   init: function(){
     this.requires('2D, Canvas, Gravity, Twoway, Collision')
+    .collision([10,0],[10,75],[40,75],[40,0])
+    .attr({x: 10, y: 10, w: 10, h: 10})
     .gravity('Platform')
     .gravityConst(1)
     .twoway(5, 15)

@@ -20,13 +20,20 @@ Game = {
   start: function(){
     Crafty.init(Game.width(),Game.height(), "stage");
     Crafty.scene("loading", function() {
-      Crafty.background("#000");
-      Crafty.e("2D, Canvas, Text")
-        .attr({ x: 320, y: Game.height()/2+20})
-        .text("Loading...")
-        .textFont({ size: '108px' })
-        .textColor("#FFFFFF");
+      Crafty.background("#676767");
+      var percent = Crafty.e("2D, DOM, Text")
+        .attr({ x: 670, y: Game.height()/2+1})
+        .text("1%")
+        .textFont({ family: 'Arial', size: '12px', weight: "normal" })
+        .textColor("#ffffff");
+      Crafty.e('2D, Canvas, Color')
+        .color("#000")
+        .attr({x: 370, y: Game.height()/2, w: 280, h: 16});
       
+      var loading_bar = Crafty.e('2D, Canvas, Color')
+        .color("#fff")
+        .attr({x: 373, y: Game.height()/2+3, w: 10, h: 10});
+
       var asset_list = [
         "assets/spritemap.png",
         "assets/rock.png",
@@ -75,7 +82,9 @@ Game = {
         },
 
         function(e) {
-          console.log(e);
+          percent.text(Math.round(e.percent) + "%");
+          loading_bar.attr({w: e.percent * 274 / 100 });
+          // console.log(e);
           //progress
         },
 

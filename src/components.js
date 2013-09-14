@@ -15,7 +15,9 @@ Crafty.sprite("assets/spritemap.png", {
   ChooseTextSprite: [0, 450, 358, 52],
   PutARingSprite: [517,180,164,97],
   LiorMeetSprite: [595,0,72,90],
-  NoaMeetSprite: [613,90,54,90]
+  NoaMeetSprite: [613,90,54,90],
+  DarkWaveSprite: [154,360,108,90],
+  LightWaveSprite: [267,360,108,90]
 });
 
 Crafty.sprite("assets/invitext.png", {
@@ -157,18 +159,37 @@ Crafty.c('Dog', {
   }
 });
 
-Crafty.c('Wave', {
+Crafty.c('LightWave', {
   init: function(){
-    this.requires('2D, Canvas, Image')
-    .image('assets/wave.png')
-    .attr({ w: 55, h: 32});
+    this.requires('2D, Canvas, Image, Tween')
+    .attr({ x:0, y: 432, w: Game.width(), h: 32})
+    .image("assets/wave.png", "repeat");
+    this.up();
+  },
+  up: function(){
+    this.unbind("TweenEnd");
+    this.tween({y: 422}, 70).bind("TweenEnd", this.down);
+  },
+  down: function(){
+    this.unbind("TweenEnd");
+    this.tween({y: 432}, 70).bind("TweenEnd", this.up);
   }
 });
 
-Crafty.c('Wave2', {
+Crafty.c('DarkWave', {
   init: function(){
-    this.requires('2D, Canvas, Image')
-    .image('assets/wave2.png');
+    this.requires('2D, Canvas, Image, Tween')
+    .attr({ x:25, y: 428, w: Game.width(), h: 32})
+    .image("assets/wave2.png", "repeat");
+    this.up();
+  },
+  up: function(){
+    this.unbind("TweenEnd");
+    this.tween({y: 423}, 100).bind("TweenEnd", this.down);
+  },
+  down: function(){
+    this.unbind("TweenEnd");
+    this.tween({y: 428}, 100).bind("TweenEnd", this.up);
   }
 });
 

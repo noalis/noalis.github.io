@@ -146,10 +146,7 @@ Game = {
         this.go();
       });
 
-      var i, j;
-      for (i=0; i<Game.map_grid.width*39; i+=39) {
-        Crafty.e("Wave").attr({x: i, y: (Game.map_grid.height-1)*Game.map_grid.tile.height+10});
-      }
+      Crafty.e("DarkWave");
 
       var active = Crafty.e('ActivePlayer');
       if (Game.active === "Noa") {
@@ -161,6 +158,7 @@ Game = {
         active.attr({x: 0, y:278, w: 50, h: 75});
       }
       
+      Crafty.e("LightWave");
 
       
       for (i=0; i<Game.map_grid.width-5; i+=5) {

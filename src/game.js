@@ -84,7 +84,6 @@ Game = {
         function(e) {
           percent.text(Math.round(e.percent) + "%");
           loading_bar.attr({w: e.percent * 274 / 100 });
-          // console.log(e);
           //progress
         },
 
@@ -180,9 +179,6 @@ Game = {
       Crafty.e("ShortCloud").attr({x: 240, y: 380});
       Crafty.e("LongCloud").attr({x: 575, y: 150});
       Crafty.e("LongCloud").attr({x: 395, y: 270});
-      // Crafty.e("ShortCloudImage").attr({x: 75, y: 290});
-      // Crafty.e("ShortCloudImage").attr({x: 800, y: 290});
-      
       
       var passive = Crafty.e('PassivePlayer');
       if (Game.passive === "Lior") {
@@ -262,9 +258,6 @@ Game = {
           
         });
       }, 2000);
-      
-      // var lior = Crafty.e('PassivePlayer').attr({x: 100, y: 100});
-      // var guy = Crafty.e('ActivePlayer').attr({x: 400, y:181});
     });
 
     // call the first scene

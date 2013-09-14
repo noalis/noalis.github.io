@@ -48,7 +48,6 @@ Crafty.c("ShortCloud", {
   init: function(){
     this.requires('2D, Canvas')
     .attr({w: 30, h:50})
-    // .color("#000000")
     .attach(Crafty.e("ShortCloudImage").attr({x: this._x-14, y:this._y-17, w: 56.5, h: 34}));
   }
 });
@@ -57,7 +56,6 @@ Crafty.c("LongCloud", {
   init: function(){
     this.requires('2D, Canvas')
     .attr({w: 60, h:50})
-    // .color("#000000")
     .attach(Crafty.e("LongCloudImage").attr({x: this._x-15, y:this._y-19, w: 85.5, h: 38.5}));
   }
 });
@@ -212,11 +210,8 @@ Crafty.c('ActivePlayer', {
     .bindKeys();
 
     this.bind("EnterFrame", function(){
-      // console.log(this._movement);
       // stop jump pose when reaching ground
       if (this.y >= this._prevY) {
-        // if (this._children.length === 2) this._children[1]._y=this._y+50;
-        // this.image("assets/lior_stand.png");
         this.changeStandSprite();
       }
       this._prevY = this.y;
@@ -233,29 +228,28 @@ Crafty.c('ActivePlayer', {
       if (this.y > Game.map_grid.height*Game.map_grid.tile.height+100) {
         this.loseLife();
       }
-
-      // if (this.y == 283) {
-      //   this.image("assets/lior_stand.png");
-      // }
     });
   },
   bindKeys: function(){
     this.bind("KeyDown", function(e){
       if (!Crafty.isPaused()){
-        if (e.key === 38) {
-          // this.image("assets/lior_jump.png");
+        if (e.key === 38 || e.key === 32 || e.key === 87) {
           this.changeJumpSprite();
-          // if (this._children.length === 2) this._children[1]._y-=22;
           Crafty.audio.play("jump");
         }
-        if (e.key === 37) {
+        if (e.key === 37 || e.key === 65) {
           this.origin("center");
           this.flip("X");
         }
-        if (e.key === 39) {
+        if (e.key === 39 || e.key === 68) {
           this.origin("center");
           this.unflip("X");
         }
+      }
+    });
+    this.bind("KeyUp", function(e){
+      if (e.key === 37 || e.key === 65 || e.key === 39 || e.key === 68) {
+        this._movement.x=0;
       }
     });
   },
@@ -290,13 +284,9 @@ Crafty.c('ActivePlayer', {
   },
   gotRing: function(ring){
     Crafty.audio.play("ring");
-    // this.attach(ring[0].obj);
     this._hasRing=true;
     ring[0].obj._attr("y",-50);
     ring[0].obj._attr("x",-50);
-    // this.unbind("EnterFrame");
-    // this.onHit('Ring', this);
-    // this.kill();
   },
   stopMovement: function(platform){
     var platform_x = platform[0].obj.x;
@@ -312,18 +302,16 @@ Crafty.c('ActivePlayer', {
       Crafty.pause();
       var _this = this;
       setTimeout(function(){
-        // _this.image("assets/ nd.png");
-        // _this.detach();
         Game.ring._attr("x",815);
         Game.ring._attr("y",190);
         _this._hasRing=false;
         _this.lives-=1;
         _this._attr("x",0);
         _this._attr("y",278);
-        _this._movement.x=0;
-        _this._movement.y=0;
         _this.unflip();
         Crafty.audio.unpause("game_music");
+        _this._movement.x=0;
+        _this._movement.y=0;
         Crafty.pause();
       }, 3100);
     }
@@ -331,27 +319,10 @@ Crafty.c('ActivePlayer', {
   checkIfStand: function(cloud){
     // check if player intersects with cloud when coming from the top
     var hit = cloud[0].obj;
-    // console.log(this.y-this.h);
-    // if () {
     if (this._prevY<this._y && this.y+this.h <= hit.y+hit.h/2) {
-      // || (!this._falling && this.y+this.h === hit.y+hit.h))
-      // make him stop falling
       this.attr("y",hit.y+hit.h);
       this.stopFalling(hit);
-      // this._falling = false;
-      // this._up = false;
     }
-    
-    
-      // cloud[0].obj.antigravity();
-      // this._falling=false;
-      // this._y = cloud[0].obj.y-40;
-      // this.stopFalling(cloud[0].obj);
-      // this._gy=-15;
-      // .requires("Platform");
-      // console.log(cloud[0].obj)
-    // }
-    // console.log(this._gy);
   },
   winOnMeet: function(girl){
     if (this._hasRing) {
@@ -401,12 +372,6 @@ Crafty.c('ActivePlayer', {
     }
   }
 });
-
-// Crafty.c("NoaJump", {
-//   init: function(){
-//     this.requires('2D, Canvas, Sprite');
-//   }
-// });
 
 Crafty.c('PassivePlayer', {
   init: function(){

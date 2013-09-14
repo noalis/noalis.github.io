@@ -138,7 +138,7 @@ Game = {
       Crafty.audio.add("meet", ["assets/sounds/meet.wav", "assets/sounds/meet.ogg", "assets/sounds/meet.mp3"]);
 
       Crafty.background('#c7daf1');
-      Crafty.audio.play("game_music", -1, 0.5);
+      Crafty.audio.play("game_music", -1, 0.2);
       var sun = Crafty.e('Sun').attr({x:0, y:0});
       
       var seal2 = Crafty.e('SealVertical').attr({x: 710, y: 100});
@@ -206,7 +206,7 @@ Game = {
       Crafty.audio.add("dog_bark", ["assets/sounds/dog_bark.wav","assets/sounds/dog_bark.ogg","assets/sounds/dog_bark.mp3"]);
       Crafty.audio.add("music", ["assets/sounds/music.wav", "assets/sounds/music.ogg", "assets/sounds/music.mp3"]);
       Crafty.audio.add("ring", ["assets/sounds/ring.wav", "assets/sounds/ring.ogg", "assets/sounds/ring.mp3"]);
-      Crafty.audio.play("music", -1, 0.6);
+      Crafty.audio.play("music", -1, 0.2);
 
       var heart = Crafty.e('Heart').attr({x: 300, y: 125, w: 60, h: 50, alpha: 0 }).requires("Tween");
       var lior = Crafty.e('LiorWedding').attr({x: 150, y: 147, alpha: 0 }).requires("Tween");

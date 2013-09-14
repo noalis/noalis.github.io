@@ -168,28 +168,32 @@ Crafty.c('LightWave', {
   },
   up: function(){
     this.unbind("TweenEnd");
-    this.tween({y: 422}, 70).bind("TweenEnd", this.down);
+    this.attr({x:this.x-39});
+    this.tween({y: 426, x: this.x+39}, 70).bind("TweenEnd", this.down);
   },
   down: function(){
     this.unbind("TweenEnd");
-    this.tween({y: 432}, 70).bind("TweenEnd", this.up);
+    this.attr({x:this.x-39});
+    this.tween({y: 432, x: this.x+39}, 70).bind("TweenEnd", this.up);
   }
 });
 
 Crafty.c('DarkWave', {
   init: function(){
     this.requires('2D, Canvas, Image, Tween')
-    .attr({ x:25, y: 428, w: Game.width(), h: 32})
+    .attr({ x:25, y: 426, w: Game.width(), h: 32})
     .image("assets/wave2.png", "repeat");
     this.up();
   },
   up: function(){
     this.unbind("TweenEnd");
-    this.tween({y: 423}, 100).bind("TweenEnd", this.down);
+    this.attr({x:this.x-39});
+    this.tween({y: 426, x: this.x+39}, 140).bind("TweenEnd", this.down);
   },
   down: function(){
     this.unbind("TweenEnd");
-    this.tween({y: 428}, 100).bind("TweenEnd", this.up);
+    this.attr({x:this.x-39});
+    this.tween({y: 432, x: this.x+39}, 140).bind("TweenEnd", this.up);
   }
 });
 

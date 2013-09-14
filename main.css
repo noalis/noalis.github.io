@@ -1,6 +1,18 @@
-@font-face {
+/*@font-face {
   font-family: Stanger;
   src: url(assets/fonts/stanger.ttf);
+}
+*/
+@font-face {
+    font-family: 'Stanger';
+    src: url('stanger-webfont.eot');
+    src: url('stanger-webfont.eot?#iefix') format('embedded-opentype'),
+         url('stanger-webfont.woff') format('woff'),
+         url('stanger-webfont.ttf') format('truetype'),
+         url('stanger-webfont.svg#stangerregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
 }
 
 body {

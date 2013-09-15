@@ -99,7 +99,7 @@ Game = {
     Crafty.scene("choose", function(){
       Crafty.background('#ffffff');
       Crafty.e('ChooseText').attr({x: 349, y: Game.height()/2-26});
-      Crafty.e('OpenSpeakers').attr({x: 380, y: Game.height() - 40});
+      // Crafty.e('OpenSpeakers').attr({x: 380, y: Game.height() - 40});
       var lior = Crafty.e('LiorStand').attr({x: 150, y: 180});
       lior.addComponent("Mouse");
       lior.bind('MouseOver', function() {

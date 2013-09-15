@@ -99,6 +99,7 @@ Game = {
     Crafty.scene("choose", function(){
       Crafty.background('#ffffff');
       Crafty.e('ChooseText').attr({x: 349, y: Game.height()/2-26});
+      Crafty.e('OpenSpeakers').attr({x: 380, y: Game.height() - 40});
       var lior = Crafty.e('LiorStand').attr({x: 150, y: 180});
       lior.addComponent("Mouse");
       lior.bind('MouseOver', function() {
@@ -199,6 +200,7 @@ Game = {
     // finish screen
     Crafty.scene("finish", function(){
       Crafty.audio.remove("game_music");
+
       document.getElementsByClassName("info")[0].style.display="none";
       Crafty.background('#ffffff');
       
@@ -249,7 +251,13 @@ Game = {
                     cat.stop();
                     cat.sprite(204, 0, 70, 90).attr({w: 70, h: 90, y: 237 });
                     text.tween({alpha: 1}, 50);
-                    setTimeout(function(){ document.getElementsByClassName("map")[0].style.display="block"; }, 2000);
+                    setTimeout(function(){
+                      document.getElementsByClassName("map")[0].style.display="block";
+                      Crafty.e('PlayAgainText').attr({x: 245, y: 365}).addComponent("Mouse").bind("Click", function(){
+                        Crafty.audio.remove("music");
+                        Crafty.scene("choose");
+                      });
+                    }, 2000);
                   });
                 });
               });

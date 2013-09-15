@@ -18,7 +18,9 @@ Crafty.sprite("assets/spritemap.png", {
   NoaMeetSprite: [613,90,54,90],
   DarkWaveSprite: [154,360,108,90],
   LightWaveSprite: [267,360,108,90],
-  CloudArrowSprite: [565,277,77,68]
+  CloudArrowSprite: [565,277,77,68],
+  OpenSpeakersSprite: [394,450,292,20],
+  PlayAgainTextSprite: [394,470,150,26]
 });
 
 Crafty.sprite("assets/invitext.png", {
@@ -62,12 +64,12 @@ Crafty.c("LongCloud", {
 });
 Crafty.c("LiorStand", {
   init: function(){
-    this.requires('2D, Canvas, LiorStandSprite');
+    this.requires('2D, DOM, LiorStandSprite').css('cursor', 'pointer');
   }
 });
 Crafty.c("NoaStand", {
   init: function(){
-    this.requires('2D, Canvas, NoaStandSprite');
+    this.requires('2D, DOM, NoaStandSprite').css('cursor', 'pointer');
   }
 });
 Crafty.c("ChooseText", {
@@ -87,11 +89,11 @@ Crafty.c("CloudArrow", {
   },
   show: function(){
     this.unbind("TweenEnd");
-    this.tween({alpha: 1}, 20).bind("TweenEnd", this.hide);
+    this.tween({alpha: 1, y: 350}, 20).bind("TweenEnd", this.hide);
   },
   hide: function(){
     this.unbind("TweenEnd");
-    this.tween({alpha: 0}, 20).bind("TweenEnd", this.show);
+    this.tween({alpha: 0, y: 360}, 20).bind("TweenEnd", this.show);
   }
 });
 
@@ -382,8 +384,8 @@ Crafty.c('ActivePlayer', {
       var cloud_arrow;
       setTimeout(function(){
         shoulda.destroy();
-         cloud_arrow = Crafty.e("CloudArrow").show();
-      }, 4000);
+        cloud_arrow = Crafty.e("CloudArrow").show();
+      }, 5000);
       this._slapped = true;
       this.requires("Tween").tween({x: 0, _up: 2990}, 20).bind("TweenEnd", function(){
         this._slapped = false;
@@ -408,6 +410,16 @@ Crafty.c("Sun", {
 Crafty.c("InviText", {
   init: function(){
     this.requires('2D, Canvas, InviTextSprite');
+  }
+});
+Crafty.c("OpenSpeakers", {
+  init: function(){
+    this.requires('2D, Canvas, OpenSpeakersSprite');
+  }
+});
+Crafty.c("PlayAgainText", {
+  init: function(){
+    this.requires('2D, DOM, PlayAgainTextSprite').css('cursor','pointer');
   }
 });
 Crafty.c("Ring", {

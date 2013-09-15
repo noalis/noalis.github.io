@@ -17,7 +17,8 @@ Crafty.sprite("assets/spritemap.png", {
   LiorMeetSprite: [595,0,72,90],
   NoaMeetSprite: [613,90,54,90],
   DarkWaveSprite: [154,360,108,90],
-  LightWaveSprite: [267,360,108,90]
+  LightWaveSprite: [267,360,108,90],
+  CloudArrowSprite: [565,277,77,68]
 });
 
 Crafty.sprite("assets/invitext.png", {
@@ -77,6 +78,20 @@ Crafty.c("ChooseText", {
 Crafty.c("PutARing", {
   init: function(){
     this.requires('2D, Canvas, PutARingSprite');
+  }
+});
+Crafty.c("CloudArrow", {
+  init: function(){
+    this.requires('2D, Canvas, CloudArrowSprite, Tween')
+    .attr({w: 38, h: 34, x: 180, y: 360});
+  },
+  show: function(){
+    this.unbind("TweenEnd");
+    this.tween({alpha: 1}, 20).bind("TweenEnd", this.hide);
+  },
+  hide: function(){
+    this.unbind("TweenEnd");
+    this.tween({alpha: 0}, 20).bind("TweenEnd", this.show);
   }
 });
 
@@ -247,11 +262,11 @@ Crafty.c('ActivePlayer', {
         }
       }
     });
-    this.bind("KeyUp", function(e){
-      if (e.key === 37 || e.key === 65 || e.key === 39 || e.key === 68) {
-        this._movement.x=0;
-      }
-    });
+    // this.bind("KeyUp", function(e){
+    //   if (e.key === 37 || e.key === 65 || e.key === 39 || e.key === 68) {
+    //     this._movement.x=0;
+    //   }
+    // });
   },
   changeJumpSprite: function(){
     if (Game.active === "Noa") {
@@ -364,7 +379,11 @@ Crafty.c('ActivePlayer', {
     else {
       Crafty.audio.play("no_ring");
       var shoulda = Crafty.e("PutARing").attr({ x: Game.width()-200, y: 240 });
-      setTimeout(function(){ shoulda.destroy(); }, 4000);
+      var cloud_arrow;
+      setTimeout(function(){
+        shoulda.destroy();
+         cloud_arrow = Crafty.e("CloudArrow").show();
+      }, 4000);
       this._slapped = true;
       this.requires("Tween").tween({x: 0, _up: 2990}, 20).bind("TweenEnd", function(){
         this._slapped = false;
